@@ -1,0 +1,15 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "beak by UndertaleSex. mustache, simple, and smallbeak by crocodilecarousel (github), ",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "simple",
+            "directions": 4
+        }
+    ]
+}

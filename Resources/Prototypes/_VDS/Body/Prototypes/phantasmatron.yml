@@ -1,0 +1,50 @@
+- type: body
+  id: Phantasmatron
+  name: "phantasmatron"
+  root: torso
+  slots:
+    head:
+      part: HeadPhantasmatron
+      connections:
+      - torso
+      organs:
+        brain: OrganPhantasmatronBrain
+        eyes: OrganPhantasmatronEyes
+    torso:
+      part: TorsoPhantasmatron
+      connections:
+      - right_arm
+      - left_arm
+      - right_leg
+      - left_leg
+      organs:
+        heart: OrganPhantasmatronHeart
+        lungs: OrganPhantasmatronLungs
+        stomach: OrganPhantasmatronStomach
+        liver: OrganHumanLiver
+        kidneys: OrganHumanKidneys
+        skin: OrganPhantasmatronSkin
+    right_arm:
+      part: RightArmPhantasmatron
+      connections:
+      - right_hand
+    left_arm:
+      part: LeftArmPhantasmatron
+      connections:
+      - left_hand
+    right_hand:
+      part: RightHandPhantasmatron
+    left_hand:
+      part: LeftHandPhantasmatron
+    right_leg:
+      part: RightLegPhantasmatron
+      connections:
+      - right_foot
+    left_leg:
+      part: LeftLegPhantasmatron
+      connections:
+      - left_foot
+    right_foot:
+      part: RightFootPhantasmatron
+    left_foot:
+      part: LeftFootPhantasmatron

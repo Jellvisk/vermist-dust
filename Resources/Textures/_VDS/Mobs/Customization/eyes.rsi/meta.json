@@ -1,0 +1,19 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "bigsquare, human, moth, and square by UndertaleSex. gray and jamjar by pinkbat5. mask by mqole. sharkminnow by crocodilecarousel (github).",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "bigsquare1",
+            "directions": 4
+        },
+        {
+            "name": "bigsquare2",
+            "directions": 4
+        }
+    ]
+}

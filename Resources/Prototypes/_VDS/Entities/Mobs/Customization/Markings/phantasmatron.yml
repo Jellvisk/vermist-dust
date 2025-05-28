@@ -1,0 +1,149 @@
+﻿# Chest
+
+- type: marking
+  id: PhasmaBarsChest
+  bodyPart: Chest
+  markingCategory: Chest
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/chest.rsi
+    state: bars
+
+# Head
+- type: marking
+  id: PhasmaEyeSplotch
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/head.rsi
+    state: eyesplotch
+
+- type: marking
+  id: PhasmaFoxEars
+  bodyPart: Head
+  markingCategory: Head
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/head.rsi
+    state: foxears
+
+# Snout
+- type: marking
+  id: PhasmaSnoutSimple
+  bodyPart: Snout
+  markingCategory: Head
+  speciesRestriction: [ Phasmatronic ]
+  followSkinColor: true
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/snout.rsi
+    state: simple
+
+# Eyes
+- type: marking
+  id: BigSquareEyes
+  bodyPart: Eyes
+  markingCategory: Head
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/eyes.rsi
+    state: bigsquare1
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/eyes.rsi
+    state: bigsquare2
+
+# RArm
+
+# LArm
+
+# RLeg
+- type: marking
+  id: PhasmaSockRLeg
+  bodyPart: RLeg
+  markingCategory: Legs
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/rleg.rsi
+    state: sock
+
+# LLeg
+- type: marking
+  id: PhasmaSockLLeg
+  bodyPart: LLeg
+  markingCategory: Legs
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/lleg.rsi
+    state: sock
+
+# UndergarmentBottom
+
+# UndergarmentTop
+
+# LFoot
+- type: marking
+  id: PhasmaSockLFoot
+  bodyPart: LFoot
+  markingCategory: Legs
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/lfoot.rsi
+    state: sock
+
+# RFoot
+- type: marking
+  id: PhasmaSockRFoot
+  bodyPart: RFoot
+  markingCategory: Legs
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/rfoot.rsi
+    state: sock
+
+# LHand
+
+# RHand
+
+# HeadSide
+- type: marking
+  id: PhasmaThavenEars
+  bodyPart: HeadSide
+  markingCategory: Head
+  speciesRestriction: [ Phasmatronic ]
+  followSkinColor: true
+  forcedColoring: true
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/headside.rsi
+    state: thaven
+
+# HeadTop
+
+- type: marking
+  id: PhasmaAntennaeBasic
+  bodyPart: HeadTop
+  markingCategory: Head
+  speciesRestriction: [ Phasmatronic ]
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/headtop.rsi
+    state: antennae
+
+# Tail
+- type: marking
+  id: PhasmaMultiArms
+  bodyPart: Tail
+  markingCategory: Tail
+  speciesRestriction: [ Phasmatronic ]
+  followSkinColor: true
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/tail.rsi
+    state: multiarms2
+
+# RArmExtension
+- type: marking
+  id: PhasmaWingsMoth
+  bodyPart: RArmExtension
+  markingCategory: Arms
+  speciesRestriction: [ Phasmatronic ]
+  followSkinColor: true
+  sprites:
+  - sprite: _VDS/Mobs/Customization/Phasmatronic/rarmextension.rsi
+    state: mothwings1

@@ -1,0 +1,166 @@
+- type: entity
+  save: false
+  name: Urist McSoul
+  parent: BaseMobHuman
+  id: MobPhantasmatronBase
+  abstract: true
+  components: # we put our custom components and whatever here!!
+  - type: UserInterface
+    interfaces:
+      enum.HumanoidMarkingModifierKey.Key:
+        type: HumanoidMarkingModifierBoundUserInterface
+      enum.StrippingUiKey.Key:
+        type: StrippableBoundUserInterface
+      enum.StoreUiKey.Key:
+        type: StoreBoundUserInterface
+      enum.ThavenMoodsUiKey.Key:
+        type: ThavenMoodsBoundUserInterface
+        requireInputValidation: false
+  - type: Sprite # how our sprite layers are ordered. we can add new ones here.
+    layers:
+    - map: [ "enum.HumanoidVisualLayers.TailBehind" ]
+    - map: [ "enum.HumanoidVisualLayers.Chest" ]
+    - map: [ "enum.HumanoidVisualLayers.Head" ]
+    - map: [ "enum.HumanoidVisualLayers.Snout" ]
+    - map: [ "enum.HumanoidVisualLayers.Eyes" ]
+    - map: [ "enum.HumanoidVisualLayers.RArm" ]
+    - map: [ "enum.HumanoidVisualLayers.LArm" ]
+    - map: [ "enum.HumanoidVisualLayers.RLeg" ]
+    - map: [ "enum.HumanoidVisualLayers.LLeg" ]
+    - map: [ "underpants" ]
+    - map: [ "undershirt" ]
+    - map: [ "socks" ]
+    - map: [ "jumpsuit" ]
+    - map: ["enum.HumanoidVisualLayers.LFoot"]
+    - map: ["enum.HumanoidVisualLayers.RFoot"]
+    - map: ["enum.HumanoidVisualLayers.LHand"]
+    - map: ["enum.HumanoidVisualLayers.RHand"]
+    - map: [ "enum.HumanoidVisualLayers.Handcuffs" ]
+      color: "#ffffff"
+      sprite: Objects/Misc/handcuffs.rsi
+      state: body-overlay-2
+      visible: false
+    - map: [ "id" ]
+    - map: [ "gloves" ]
+    - map: [ "shoes" ]
+    - map: [ "ears" ]
+    - map: [ "outerClothing" ]
+    - map: [ "eyes" ]
+    - map: [ "belt" ]
+    - map: [ "back" ]
+    - map: [ "neck" ]
+    - map: [ "enum.HumanoidVisualLayers.HeadSide" ]
+    - map: [ "pocket1" ]
+    - map: [ "pocket2" ]
+    - map: [ "clownedon" ] # Dynamically generated
+      sprite: "Effects/creampie.rsi"
+      state: "creampie_human"
+      visible: false
+    - map: [ "enum.HumanoidVisualLayers.RArmExtension" ]
+    - map: [ "enum.HumanoidVisualLayers.LArmExtension" ]
+    - map: [ "enum.HumanoidVisualLayers.Tail" ]
+    - map: [ "enum.HumanoidVisualLayers.TailOversuit" ]
+    - map: [ "enum.HumanoidVisualLayers.HeadTop" ]
+    - map: [ "mask" ]
+    - map: [ "head" ]
+  - type: HumanoidAppearance
+    species: Phantasmatron
+    hideLayersOnEquip:
+    - HeadTop
+    - HeadSide
+    - Tail
+  - type: Fixtures
+    fixtures: # TODO: This needs a second fixture just for mob collisions.
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.32
+        density: 150
+        restitution: 0.0
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: Body
+    prototype: Phantasmatron
+  - type: Bloodstream
+    bloodReagent: WeldingFuel # probably change later. but then again it's really funny
+  - type: Damageable
+    damageModifierSet: Phantasmatron
+  - type: MeleeWeapon
+    angle: 0
+    animation: WeaponArcPunch
+    soundHit:
+      collection: BoxingHit # we should change this to sound more metallic
+    damage:
+      types:
+        Blunt: 5
+  - type: TypingIndicator
+    proto: phantasmatron
+  - type: Speech
+    speechSounds: Phantasmatron
+    speechVerb: Phantasmatron
+    allowedEmotes: ['Beep'] # we can add more
+  - type: Vocal
+    sounds:
+      Male: Phantasmatron
+      Female: Phantasmatron
+      Unsexed: Phantasmatron
+  - type: Inventory # if we need displacements we put them here.
+  - type: Butcherable
+    butcheringType: Spike
+    spawned:
+    - id: SheetPlasma1
+      amount: 5
+
+- type: entity
+  save: false
+  name: Urist McSoul
+  parent: MobHumanDummy
+  id: MobPhantasmatronDummy
+  categories: [ HideSpawnMenu ]
+  description: A dummy Phantasmatron meant to be used in character setup.
+  components:
+  - type: HumanoidAppearance
+    species: Phantasmatron
+  - type: Inventory
+  - type: Sprite
+    layers:
+    - map: [ "enum.HumanoidVisualLayers.Chest" ]
+    - map: [ "enum.HumanoidVisualLayers.Head" ]
+    - map: [ "enum.HumanoidVisualLayers.Snout" ]
+    - map: [ "enum.HumanoidVisualLayers.Eyes" ]
+    - map: [ "enum.HumanoidVisualLayers.RArm" ]
+    - map: [ "enum.HumanoidVisualLayers.LArm" ]
+    - map: [ "enum.HumanoidVisualLayers.RLeg" ]
+    - map: [ "enum.HumanoidVisualLayers.LLeg" ]
+    - map: [ "underpants" ]
+    - map: [ "undershirt" ]
+    - map: [ "socks" ]
+    - map: [ "jumpsuit" ]
+    - map: ["enum.HumanoidVisualLayers.LFoot"]
+    - map: ["enum.HumanoidVisualLayers.RFoot"]
+    - map: ["enum.HumanoidVisualLayers.LHand"]
+    - map: ["enum.HumanoidVisualLayers.RHand"]
+    - map: [ "id" ]
+    - map: [ "gloves" ]
+    - map: [ "shoes" ]
+    - map: [ "ears" ]
+    - map: [ "outerClothing" ]
+    - map: [ "eyes" ]
+    - map: [ "belt" ]
+    - map: [ "back" ]
+    - map: [ "neck" ]
+    - map: [ "enum.HumanoidVisualLayers.HeadSide" ]
+    - map: [ "pocket1" ]
+    - map: [ "pocket2" ]
+    - map: [ "clownedon" ] # Dynamically generated
+      sprite: "Effects/creampie.rsi"
+      state: "creampie_human"
+      visible: false
+    - map: [ "enum.HumanoidVisualLayers.RArmExtension" ]
+    - map: [ "enum.HumanoidVisualLayers.Tail" ]
+    - map: [ "enum.HumanoidVisualLayers.TailOversuit" ]
+    - map: [ "enum.HumanoidVisualLayers.HeadTop" ]
+    - map: [ "mask" ]
+    - map: [ "head" ]

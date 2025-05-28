@@ -17,6 +17,7 @@
     <GuideEntityEmbed Entity="MobMoth" Caption="Moth Person"/>
   </Box>
   <Box>
+    <GuideEntityEmbed Entity="MobPhantasmatron" Caption="Phantasmatron"/> <!--VDS-->
     <GuideEntityEmbed Entity="MobReptilian" Caption="Reptilian"/>
     <GuideEntityEmbed Entity="MobSlimePerson" Caption="Slime Person"/>
     <GuideEntityEmbed Entity="MobThaven" Caption="Thaven"/>

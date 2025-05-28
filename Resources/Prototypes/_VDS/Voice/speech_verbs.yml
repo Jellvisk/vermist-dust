@@ -1,0 +1,7 @@
+﻿- type: speechVerb
+  id: Phantasmatron
+  name: chat-speech-verb-name-phantasmatron
+  speechVerbStrings:
+  - chat-speech-verb-phantasmatron-1
+  - chat-speech-verb-phantasmatron-2
+  - chat-speech-verb-phantasmatron-3

@@ -1,0 +1,15 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "antennae, bunny, mapleantennae, and wolf by UndertaleSex. basilisk, eyestalk, grayhead, headslime, hornscurly, hornsstraight, hornssweptback, and scorpion by crocodilecarousel (github)",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "antennae",
+            "directions": 4
+        }
+    ]
+}

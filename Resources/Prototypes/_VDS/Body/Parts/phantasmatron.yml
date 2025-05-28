@@ -1,0 +1,156 @@
+- type: entity
+  id: PartPhantasmatron
+  parent: [BaseItem, BasePart]
+  name: "phantasmatron body part"
+  abstract: true
+  components:
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Fat
+        Quantity: 3
+      - ReagentId: Blood
+        Quantity: 10
+
+- type: entity
+  id: TorsoPhantasmatron
+  name: "phantasmatron torso"
+  parent: [PartPhantasmatron, BaseTorso]
+  components:
+  - type: Sprite
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "torso_f"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "torso_f"
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Fat
+        Quantity: 10
+      - ReagentId: Blood
+        Quantity: 20
+
+- type: entity
+  id: HeadPhantasmatron
+  name: "phantasmatron head"
+  parent: [PartPhantasmatron, BaseHead]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "head_f"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "head_f"
+  - type: Extractable
+    juiceSolution:
+      reagents:
+      - ReagentId: Fat
+        Quantity: 5
+      - ReagentId: Blood
+        Quantity: 10
+
+- type: entity
+  id: LeftArmPhantasmatron
+  name: "left phantasmatron arm"
+  parent: [PartPhantasmatron, BaseLeftArm]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_arm"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_arm"
+
+- type: entity
+  id: RightArmPhantasmatron
+  name: "right phantasmatron arm"
+  parent: [PartPhantasmatron, BaseRightArm]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_arm"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_arm"
+
+- type: entity
+  id: LeftHandPhantasmatron
+  name: "left phantasmatron hand"
+  parent: [PartPhantasmatron, BaseLeftHand]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_hand"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_hand"
+
+- type: entity
+  id: RightHandPhantasmatron
+  name: "right phantasmatron hand"
+  parent: [PartPhantasmatron, BaseRightHand]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_hand"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_hand"
+
+- type: entity
+  id: LeftLegPhantasmatron
+  name: "left phantasmatron leg"
+  parent: [PartPhantasmatron, BaseLeftLeg]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_leg"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_leg"
+
+- type: entity
+  id: RightLegPhantasmatron
+  name: "right phantasmatron leg"
+  parent: [PartPhantasmatron, BaseRightLeg]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_leg"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_leg"
+
+- type: entity
+  id: LeftFootPhantasmatron
+  name: "left phantasmatron foot"
+  parent: [PartPhantasmatron, BaseLeftFoot]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_foot"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "l_foot"
+
+- type: entity
+  id: RightFootPhantasmatron
+  name: "right phantasmatron foot"
+  parent: [PartPhantasmatron, BaseRightFoot]
+  components:
+  - type: Sprite
+    netsync: false
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_foot"
+  - type: Icon
+    sprite: _VDS/Mobs/Species/Phantasmatron/parts.rsi
+    state: "r_foot"

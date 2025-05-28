@@ -1,0 +1,9 @@
+﻿- type: speechSounds
+  id: Phantasmatron
+  saySound:
+    path: /Audio/_Impstation/Animals/Gorilla_Chuff.ogg
+  askSound:
+    path: /Audio/_Impstation/Animals/Gorilla_Chuff.ogg
+  exclaimSound:
+    path: /Audio/_Impstation/Animals/Gorilla_Chuff.ogg
+# placeholder. or is it? OO OO AA AA

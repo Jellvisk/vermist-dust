@@ -1,0 +1,171 @@
+- type: entity
+  id: BasePhantasmatronOrganUnGibbable
+  parent: BaseHumanOrganUnGibbable
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _VDS/Mobs/Species/Phantasmatron/organs.rsi
+
+- type: entity
+  id: BasePhantasmatronOrgan
+  parent: BasePhantasmatronOrganUnGibbable
+  abstract: true
+  components:
+  - type: Gibbable
+
+- type: entity
+  id: OrganPhantasmatronBrain
+  parent: BasePhantasmatronOrganUnGibbable
+  name: soul container
+  description: "It might have some backup data of the previous owner..."
+  components:
+  - type: Sprite
+    state: brain
+  - type: Organ
+  - type: Input
+    context: "ghost"
+  - type: Brain
+  - type: InputMover
+  - type: Examiner
+  - type: BlockMovement
+  - type: BadFood
+  - type: Tag # goob edit
+    tags:
+    - Organ
+    - Brain
+  - type: SolutionContainerManager
+    solutions:
+      organ:
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 10
+      food:
+        maxVol: 5
+        reagents:
+        - ReagentId: GreyMatter
+          Quantity: 5
+  - type: FlavorProfile
+    flavors:
+      - people
+  - type: FoodSequenceElement
+    entries:
+      Burger: Brain
+      Taco: Brain
+
+- type: entity
+  id: OrganPhantasmatronEyes
+  parent: BasePhantasmatronOrgan
+  name: optical sensors
+  description: "It has more frames per second than the average human eye."
+  components:
+  - type: Sprite
+    layers:
+      - state: eyeball-l
+  - type: Tag # goob edit
+    tags:
+    - Organ
+    - Eyes
+
+- type: entity
+  id: OrganPhantasmatronSkin
+  parent: BasePhantasmatronOrgan
+  name: chassis film
+  description: "Forgot to peel the plastic."
+  components:
+  - type: Sprite
+    state: vessel
+
+- type: entity
+  id: OrganPhantasmatronLungs
+  parent: BasePhantasmatronOrgan
+  name: air filtration system
+  description: "Filters up to 99.9% of pollutants."
+  components:
+  - type: Sprite
+    state: lung-l
+  - type: Lung
+  - type: Metabolizer
+    updateInterval: 2.0
+    removeEmpty: true
+    solutionOnBody: false
+    solution: "Lung"
+    metabolizerTypes: [ Phantasmatron ]
+    groups:
+    - id: Gas
+      rateModifier: 100.0
+  - type: SolutionContainerManager
+    solutions:
+      organ:
+        reagents:
+        - ReagentId: Nutriment
+          Quantity: 10
+      Lung:
+        maxVol: 100.0
+        canReact: false
+      food:
+        maxVol: 5
+        reagents:
+        - ReagentId: UncookedAnimalProteins
+          Quantity: 5
+  - type: Tag # goob edit
+    tags:
+    - Organ
+    - Lungs
+
+- type: entity
+  id: OrganPhantasmatronStomach
+  parent: BasePhantasmatronOrgan
+  name: philosopher's stone
+  description: "It's real."
+  components:
+  - type: Sprite
+    state: stomach
+  - type: SolutionContainerManager
+    solutions:
+      stomach:
+        maxVol: 50
+      food:
+        maxVol: 5
+        reagents:
+        - ReagentId: UncookedAnimalProteins
+          Quantity: 5
+  - type: Stomach
+    specialDigestible:
+      tags:
+      - Raw
+      - Meat
+      - Organ
+      - Flesh
+  - type: Metabolizer
+    maxReagents: 3
+    metabolizerTypes: [ Phantasmatron ]
+    groups:
+    - id: Food
+    - id: Drink
+  - type: Tag # goob edit
+    tags:
+    - Organ
+    - Stomach
+
+- type: entity
+  id: OrganPhantasmatronHeart
+  parent: BasePhantasmatronOrgan
+  name: soul fusion reactor
+  description: "They figured out soul fusion before cold fusion."
+  components:
+  - type: Sprite
+    state: heart-off
+  - type: Metabolizer
+    maxReagents: 2
+    metabolizerTypes: [ Phantasmatron ]
+    groups:
+    - id: Medicine
+    - id: Poison
+    - id: Narcotic
+  - type: Tag # goob edit
+    tags:
+    - Organ
+    - Heart
+  - type: Item
+    size: Small
+    heldPrefix: heart

@@ -1,0 +1,15 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "bars, belly, canvas, eye, koispots, mantleshade, organs, and stripes by crocodilecarousel (github). gills by pinkbat5. tummyteeth by mqole.",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "bars",
+            "directions": 4
+        }
+    ]
+}

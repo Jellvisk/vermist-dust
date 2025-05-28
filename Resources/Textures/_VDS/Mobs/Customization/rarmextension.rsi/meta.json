@@ -1,0 +1,15 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-3.0",
+    "copyright": "bladewings by pinkbat5. cloakarms, crabclaws, dionaarms, humanarmstattoo, jellycapestripes, jellycloak, mothwings, myfirstwings, puffcape, puffycape, slimearms, spinecloak, squidcape, swanwings, tentawings, thingwings, unevenarms, and urchinarms by crocodilecarousel (github). variablewings by mqole.",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "mothwings1",
+            "directions": 4
+        }
+    ]
+}

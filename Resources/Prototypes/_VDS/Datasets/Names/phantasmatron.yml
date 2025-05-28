@@ -1,0 +1,11 @@
+﻿- type: localizedDataset
+  id: PhantasmatronFirst
+  values:
+    prefix: names-phantasmatron-first-
+    count: 5
+
+- type: localizedDataset
+  id: PhantasmatronLast
+  values:
+    prefix: names-phantasmatron-last-
+    count: 5
