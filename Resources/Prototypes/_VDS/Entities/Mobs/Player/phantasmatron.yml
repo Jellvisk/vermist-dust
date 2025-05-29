@@ -23,6 +23,20 @@
   - type: CameraRecoil
   - type: Examiner
   - type: CanHostGuardian
+  - type: Soul
+    soulEntity: MobGorilla
   - type: NpcFactionMember
     factions:
     - NanoTrasen
+
+- type: entity
+  id: ActionLeaveBody
+  name: "[color=cyan]Leave Body[/color]"
+  description: Yank your own soul out of your body.
+  components:
+  - type: InstantAction
+    icon:
+      sprite: Interface/Actions
+      state: eyeopen
+    event: !type:LeaveBodyEvent
+    priority: 1
