@@ -23,7 +23,7 @@
   - type: CameraRecoil
   - type: Examiner
   - type: CanHostGuardian
-  - type: Soul
+  - type: SoulBearer
     soulEntity: MobGorilla
   - type: NpcFactionMember
     factions:
@@ -36,7 +36,7 @@
   components:
   - type: InstantAction
     icon:
-      sprite: Interface/Actions
-      state: eyeopen
+      sprite: Interface/Actions/actions_crit.rsi
+      state: fakedeath
     event: !type:LeaveBodyEvent
     priority: 1

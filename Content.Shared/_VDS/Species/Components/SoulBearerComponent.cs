@@ -1,15 +1,14 @@
-﻿using Content.Shared.Damage;
-using Content.Shared.Tag;
+﻿using Content.Shared._VDS.Species.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
-namespace Content.Shared._VDS.Species;
+namespace Content.Shared._VDS.Species.Components;
 
 [RegisterComponent, NetworkedComponent]
-[Access(typeof(SoulSystem))]
-public sealed partial class SoulComponent : Component
+[Access(typeof(SoulBearerSystem))]
+public sealed partial class SoulBearerComponent : Component
 {
     /// <summary>
     /// Prototype: Action to leave.
@@ -31,16 +30,10 @@ public sealed partial class SoulComponent : Component
     /// <summary>
     /// The place where your soul lives.
     /// </summary>
-    public ContainerSlot SoulSlot = default!;
+    public ContainerSlot SoulSlot = default!; // probably change this to a mind container maybe??
 
     [DataField]
     public string SlotId = "soul";
 
     public bool HasSoul = true;
-
-    /// <summary>
-    /// TODO: How much damage it takes from its host container.
-    /// </summary>
-    public float? DamagePassthrough;
-
 }
