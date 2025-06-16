@@ -1,3 +1,5 @@
+using Content.Shared.Construction.Prototypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
 
@@ -12,11 +14,12 @@ namespace Content.Shared.Preferences
     public sealed class PlayerPreferences
     {
         private Dictionary<int, ICharacterProfile> _characters;
-        public PlayerPreferences(IEnumerable<KeyValuePair<int, ICharacterProfile>> characters, int selectedCharacterIndex, Color adminOOCColor, Color oocColor)
+        public PlayerPreferences(IEnumerable<KeyValuePair<int, ICharacterProfile>> characters, int selectedCharacterIndex, Color adminOOCColor, List<ProtoId<ConstructionPrototype>> constructionFavorites, Color oocColor)
         {
             _characters = new Dictionary<int, ICharacterProfile>(characters);
             SelectedCharacterIndex = selectedCharacterIndex;
             AdminOOCColor = adminOOCColor;
+            ConstructionFavorites = constructionFavorites;
             OOCColor = oocColor;
         }
 
@@ -43,6 +46,10 @@ namespace Content.Shared.Preferences
         public Color AdminOOCColor { get; set; }
 
         public Color OOCColor { get; set; } // VDS
+        /// <summary>
+        ///    List of favorite items in the construction menu.
+        /// </summary>
+        public List<ProtoId<ConstructionPrototype>> ConstructionFavorites { get; set; } = [];
 
         public int IndexOfCharacter(ICharacterProfile profile)
         {
