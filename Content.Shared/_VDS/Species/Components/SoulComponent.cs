@@ -1,0 +1,67 @@
+using Content.Shared._VDS.Species.Systems;
+using Content.Shared.Tag;
+using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
+
+namespace Content.Shared._VDS.Species.Components;
+
+[RegisterComponent, NetworkedComponent]
+[Access(typeof(SoulSystem))]
+public sealed partial class SoulComponent : Component
+{
+    /// <summary>
+    /// Prototype: Action to enter.
+    /// </summary>
+    [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
+    public string? EnterBodyAction = "ActionEnterBody";
+
+    [DataField]
+    public EntityUid? EnterBodyActionEntity;
+
+    // TODO: soundspecifier datafield for a sound that plays when you enter the mortal coil.
+    /// <summary>
+    /// SlotID the soul belongs to, normally.
+    /// </summary>
+    [DataField]
+    public string SlotId = "soul";
+
+    /// <summary>
+    /// Optional list of tags the soul is allowed to inhabit.
+    /// </summary>
+    [DataField(required: false)]
+    public List<ProtoId<TagPrototype>>? CanInhabitTheseTags;
+
+    /// <summary>
+    /// If the entity has a valid tag but no matching SlotId, allow entry anyway by
+    /// creating a new slot.
+    ///
+    /// If set to true yet no tags are provided, the soul can inhabit anything.
+    /// </summary>
+    [DataField]
+    public bool? CreateSlotIfValidTag = false;
+
+    /// <summary>
+    /// If the entry target is inhabited by another soul, swap places with them. Otherwise, nothing happens.
+    /// </summary>
+    [DataField]
+    public bool? CanSwapWithInhabitedSoulBearers = false;
+
+    /// <summary>
+    /// Force swap with minds even if the target has no 'soul', creating one for them in the process.
+    /// </summary>
+    [DataField]
+    public bool? ForceSwap = false;
+
+    /// <summary>
+    /// Prototype that a forcefully swapped minded entity gets placed into.
+    /// </summary>
+    [DataField]
+    public EntProtoId VictimFallback;
+
+    /// <summary>
+    /// Give the force-swapped victim the SoulComponent, whether their prototype already has it or not.
+    /// </summary>
+    [DataField]
+    public SoulComponent? VictimFallbackSoul;
+}

@@ -1,9 +1,10 @@
-﻿using Content.Shared._VDS.Species.Components;
+using Content.Shared._VDS.Species.Components;
 using Content.Shared.Actions;
 using Content.Shared.Mind;
 using Robust.Shared.Containers;
 
 namespace Content.Shared._VDS.Species.Systems;
+
 public sealed partial class SoulBearerSystem : EntitySystem
 {
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
@@ -14,7 +15,7 @@ public sealed partial class SoulBearerSystem : EntitySystem
     // TODO: spirit leave on gib.
     // TODO: chained leave action with doafter, as is proper. should probably be a bool toggle so people can use this component for other stuff too
     // TODO: cool fx and stuff.
-    // might have to move some of this to server in the future idk
+    // TODO: !!!! generic-ize some of this to be a vehicle-like system instead?
     public override void Initialize()
     {
         base.Initialize();
@@ -43,17 +44,17 @@ public sealed partial class SoulBearerSystem : EntitySystem
     /// </summary>
     private void OnSoulLeave(EntityUid uid, SoulBearerComponent comp, LeaveBodyEvent args)
     {
-      // Make sure the DoAfter is valid.
-      if ( !comp.HasSoul || args.Handled || comp.Deleted)
-          return;
-
-      //Transfer mind from body to soul, then eject.
-      if (!_mindSystem.TryGetMind(args.Performer, out var mindId, out var mind))
-          return;
-      var soul = _container.EnsureContainer<ContainerSlot>(args.Performer, comp.SlotId);
-      _mindSystem.TransferTo(mindId, soul.ContainedEntity, mind: mind);
-      _container.EmptyContainer(soul, force: true);
-      comp.HasSoul = false;
+        // Make sure everything is valid.
+        if (!comp.HasSoul || args.Handled || comp.Deleted)
+            return;
+        //Transfer mind from body to soul, then eject.
+        if (!_mindSystem.TryGetMind(args.Performer, out var mindId, out var mind))
+            return;
+        // need to separate everything above into a 'try' method instead.
+        var soul = _container.EnsureContainer<ContainerSlot>(args.Performer, comp.SlotId);
+        _mindSystem.TransferTo(mindId, soul.ContainedEntity, mind: mind);
+        _container.EmptyContainer(soul, force: true);
+        comp.HasSoul = false;
 
     }
     public sealed partial class LeaveBodyEvent : InstantActionEvent;

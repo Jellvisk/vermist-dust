@@ -1,4 +1,4 @@
-﻿using Content.Shared._VDS.Species.Systems;
+using Content.Shared._VDS.Species.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -7,7 +7,6 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototy
 namespace Content.Shared._VDS.Species.Components;
 
 [RegisterComponent, NetworkedComponent]
-[Access(typeof(SoulBearerSystem))]
 public sealed partial class SoulBearerComponent : Component
 {
     /// <summary>

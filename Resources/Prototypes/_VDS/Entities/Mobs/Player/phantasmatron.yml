@@ -24,7 +24,7 @@
   - type: Examiner
   - type: CanHostGuardian
   - type: SoulBearer
-    soulEntity: MobGorilla
+    soulEntity: Soul
   - type: NpcFactionMember
     factions:
     - NanoTrasen
@@ -39,4 +39,23 @@
       sprite: Interface/Actions/actions_crit.rsi
       state: fakedeath
     event: !type:LeaveBodyEvent
+    priority: 1
+
+- type: entity
+  name: Soul Placeholder
+  parent: MobGorilla
+  id: Soul
+  components:
+    - type: Soul
+
+- type: entity
+  id: ActionEnterBody
+  name: "[color=cyan]Enter Body[/color]"
+  description: Enter your body.
+  components:
+  - type: EntityTargetAction
+    icon:
+      sprite: Interface/Actions/actions_crit.rsi
+      state: fakedeath
+    event: !type:EnterBodyWithActionEvent
     priority: 1
