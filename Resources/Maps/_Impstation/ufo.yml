@@ -4,8 +4,8 @@ meta:
   engineVersion: 262.0.0
   forkId: ""
   forkVersion: ""
-  time: 07/31/2025 00:40:38
-  entityCount: 4982
+  time: 08/01/2025 19:08:53
+  entityCount: 4995
 maps:
 - 1
 grids:
@@ -2788,126 +2788,179 @@ entities:
             2183: 27.375484,-6.933509
             2267: 45,-5
         - node:
+            shaderID: unshaded
             angle: 3.141592653589793 rad
-            color: '#73E197FF'
+            color: '#73FF97FF'
             id: UnshadedLine
           decals:
-            4416: 61,4
+            4596: 61,4
+            4598: 62,3
+            4599: 61,3
+            4600: 60,3
         - node:
+            shaderID: unshaded
             angle: 6.283185307179586 rad
-            color: '#73E197FF'
+            color: '#73FF97FF'
             id: UnshadedLine
           decals:
-            4417: 61,4
+            4597: 61,4
         - node:
-            color: '#73E197FF'
-            id: UnshadedLineCenter
-          decals:
-            4384: 64.000374,2.130057
-            4385: 63.000378,2.130057
-        - node:
+            shaderID: unshaded
             angle: 1.5707963267948966 rad
-            color: '#73E197FF'
+            color: '#73FF97FF'
             id: UnshadedLineCenter
           decals:
-            4388: 61.097725,2.6623669
-            4391: 61.09342,3.0636752
-            4401: 63.106102,2.0019555
-            4402: 62.86536,2.0019555
+            4534: 61.876728,0.37274516
+            4535: 62.094322,0.37274516
+            4577: 62.0924,3.6771302
+            4578: 61.87481,3.9826856
+            4579: 61.09703,3.9734263
+            4580: 60.87481,3.964167
+            4581: 60.09703,3.9595375
+            4582: 60.09703,1.9271302
+            4583: 59.87481,3.2604635
+            4584: 59.87481,3.9675274
+            4585: 59.87481,2.2730827
+            4586: 59.87481,1.574851
         - node:
+            shaderID: unshaded
             angle: 3.141592653589793 rad
-            color: '#73E197FF'
+            color: '#73FF97FF'
             id: UnshadedLineCenter
           decals:
-            4397: 61.376347,1.1350279
-            4422: 62.00318,2.1279616
+            4502: 64.09682,2.125165
+            4503: 64.092186,1.9075723
+            4504: 64.407,1.9075723
+            4505: 64.407,2.125165
+            4528: 61.194893,0.90515256
+            4587: 61.157215,1.1211472
+            4588: 60.7174,1.1211472
+            4589: 60.587772,0.9035547
         - node:
-            angle: 4.71238898038469 rad
-            color: '#73E197FF'
-            id: UnshadedLineCenter
-          decals:
-            4399: 62.107826,0.62576854
-            4428: 60.105465,3.049258
-            4434: 60.106403,2.0648549
-        - node:
+            shaderID: unshaded
             angle: 6.283185307179586 rad
-            color: '#73E197FF'
+            color: '#73FF97FF'
             id: UnshadedLineCenter
           decals:
-            4390: 60.86657,3.1331196
-            4396: 61.1032,1.1350279
-            4400: 64.40466,2.1308935
+            4537: 61.881573,1.906101
+            4575: 61.48129,1.9080024
+            4576: 61.97666,2.125595
         - node:
-            angle: 1.5707963267948966 rad
-            color: '#73E197FF'
+            shaderID: unshaded
+            color: '#73FF97FF'
             id: UnshadedLineCenterCorner
           decals:
-            4398: 62.107826,1.1350279
+            4486: 62.87398,2.1252947
         - node:
-            angle: 4.71238898038469 rad
-            color: '#73E197FF'
-            id: UnshadedLineCenterCorner
-          decals:
-            4392: 60.107826,3.1311243
-            4424: 61.095345,2.1279616
-            4435: 60.10606,1.1365478
-        - node:
-            angle: 6.283185307179586 rad
-            color: '#73E197FF'
-            id: UnshadedLineCenterCorner
-          decals:
-            4389: 61.866936,3.1331196
-        - node:
-            angle: 3.141592653589793 rad
-            color: '#73E197FF'
-            id: UnshadedLineCenterDiagonal
-          decals:
-            4426: 62.05702,2.160369
-        - node:
-            angle: 4.71238898038469 rad
-            color: '#73E197FF'
-            id: UnshadedLineCenterDiagonal
-          decals:
-            4425: 62.061646,2.0955544
-            4436: 60.073654,2.0948813
-        - node:
-            angle: 6.283185307179586 rad
-            color: '#73E197FF'
-            id: UnshadedLineCenterDiagonal
-          decals:
-            4437: 60.13847,2.0902514
-        - node:
+            shaderID: unshaded
             angle: 1.5707963267948966 rad
-            color: '#73E197FF'
-            id: UnshadedLineCorner
+            color: '#73FF97FF'
+            id: UnshadedLineCenterCorner
           decals:
-            4406: 63,1
-            4411: 63,3
-            4414: 62,4
+            4484: 62.87398,1.9077022
+            4529: 61.87545,0.90515256
+            4530: 62.094322,1.1227452
+            4570: 60.87481,2.9058776
         - node:
+            shaderID: unshaded
             angle: 3.141592653589793 rad
-            color: '#73E197FF'
-            id: UnshadedLineCorner
+            color: '#73FF97FF'
+            id: UnshadedLineCenterCorner
           decals:
-            4407: 63,1
-            4408: 63,3
-            4415: 60,4
+            4483: 63.096207,1.9077022
+            4569: 61.09703,2.9058776
+            4571: 60.09703,2.9058776
         - node:
+            shaderID: unshaded
             angle: 4.71238898038469 rad
-            color: '#73E197FF'
-            id: UnshadedLineCorner
+            color: '#73FF97FF'
+            id: UnshadedLineCenterCorner
           decals:
-            4404: 63,1
-            4409: 63,3
-            4412: 60,4
+            4485: 63.096207,2.1252947
+            4566: 61.09703,3.1234703
+            4568: 60.09703,3.1234703
+            4573: 61.09703,2.125595
+            4574: 60.87481,1.9080024
+            4590: 60.09703,1.1211472
+            4591: 59.87481,0.9035547
         - node:
+            shaderID: unshaded
             angle: 6.283185307179586 rad
-            color: '#73E197FF'
+            color: '#73FF97FF'
+            id: UnshadedLineCenterCorner
+          decals:
+            4565: 61.87481,3.1234703
+            4567: 60.87481,3.1234703
+            4572: 62.0924,2.9058776
+        - node:
+            shaderID: unshaded
+            angle: 1.5707963267948966 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCenterInnerDiagonal
+          decals:
+            4543: 62,2
+        - node:
+            shaderID: unshaded
+            angle: 3.141592653589793 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCenterInnerDiagonal
+          decals:
+            4544: 61,1
+        - node:
+            shaderID: unshaded
+            angle: 4.71238898038469 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCenterInnerDiagonal
+          decals:
+            4545: 61,1
+        - node:
+            shaderID: unshaded
+            angle: 6.283185307179586 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCenterInnerDiagonal
+          decals:
+            4542: 62,2
+        - node:
+            shaderID: unshaded
+            color: '#73FF97FF'
             id: UnshadedLineCorner
           decals:
-            4405: 63,1
-            4410: 63,3
-            4413: 62,4
+            4438: 63,1
+        - node:
+            shaderID: unshaded
+            angle: 1.5707963267948966 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCorner
+          decals:
+            4439: 63,1
+            4444: 63,3
+            4595: 62,4
+        - node:
+            shaderID: unshaded
+            angle: 3.141592653589793 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCorner
+          decals:
+            4440: 63,1
+            4445: 63,3
+            4593: 60,4
+        - node:
+            shaderID: unshaded
+            angle: 4.71238898038469 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCorner
+          decals:
+            4441: 63,1
+            4442: 63,3
+            4592: 60,4
+        - node:
+            shaderID: unshaded
+            angle: 6.283185307179586 rad
+            color: '#73FF97FF'
+            id: UnshadedLineCorner
+          decals:
+            4443: 63,3
+            4594: 62,4
         - node:
             color: '#E1DAECFF'
             id: WarnCornerGreyscaleNW
@@ -6454,7 +6507,7 @@ entities:
       pos: 61.5,-0.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -17744.082
+      secondsUntilStateChange: -20503.518
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -15524,6 +15577,29 @@ entities:
       rot: 3.141592653589793 rad
       pos: 60.5,-3.5
       parent: 2
+  - uid: 4986
+    components:
+    - type: Transform
+      pos: 62.5,1.5
+      parent: 2
+  - uid: 4989
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 61.5,2.5
+      parent: 2
+  - uid: 4990
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 62.5,3.5
+      parent: 2
+  - uid: 4991
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 60.5,1.5
+      parent: 2
 - proto: GasPipeBendAlt1
   entities:
   - uid: 4226
@@ -15602,6 +15678,18 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 58.5,-1.5
+      parent: 2
+- proto: GasPipeFourway
+  entities:
+  - uid: 4984
+    components:
+    - type: Transform
+      pos: 63.5,2.5
+      parent: 2
+  - uid: 4988
+    components:
+    - type: Transform
+      pos: 61.5,3.5
       parent: 2
 - proto: GasPipeManifold
   entities:
@@ -15684,6 +15772,29 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 62.5,-3.5
+      parent: 2
+  - uid: 4983
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 64.5,2.5
+      parent: 2
+  - uid: 4985
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 62.5,2.5
+      parent: 2
+  - uid: 4987
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 61.5,1.5
+      parent: 2
+  - uid: 4992
+    components:
+    - type: Transform
+      pos: 60.5,2.5
       parent: 2
 - proto: GasPipeStraightAlt1
   entities:
@@ -15783,6 +15894,12 @@ entities:
       rot: 3.141592653589793 rad
       pos: 61.5,-2.5
       parent: 2
+  - uid: 4993
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 60.5,3.5
+      parent: 2
 - proto: GasPipeTJunctionAlt1
   entities:
   - uid: 3097
@@ -15808,6 +15925,19 @@ entities:
     components:
     - type: Transform
       pos: 62.5,-3.5
+      parent: 2
+- proto: GasPort
+  entities:
+  - uid: 4994
+    components:
+    - type: Transform
+      pos: 63.5,3.5
+      parent: 2
+  - uid: 4995
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 63.5,1.5
       parent: 2
 - proto: GasPressurePump
   entities:
@@ -26707,6 +26837,90 @@ entities:
         - False
       - - 4090
         - False
+      - - 1920
+        - False
+      - - 3711
+        - False
+      - - 1662
+        - False
+      - - 3712
+        - False
+      - - 1657
+        - False
+      - - 1658
+        - False
+      - - 4065
+        - False
+      - - 4064
+        - False
+      - - 3717
+        - False
+      - - 3713
+        - False
+      - - 3706
+        - False
+      - - 3705
+        - False
+      - - 1804
+        - False
+      - - 1740
+        - False
+      - - 4078
+        - False
+      - - 4071
+        - False
+      - - 4070
+        - False
+      - - 4069
+        - False
+      - - 4081
+        - False
+      - - 4077
+        - False
+      - - 4082
+        - False
+      - - 4075
+        - False
+      - - 4074
+        - False
+      - - 4073
+        - False
+      - - 4093
+        - False
+      - - 4072
+        - False
+      - - 4084
+        - False
+      - - 4079
+        - False
+      - - 4068
+        - False
+      - - 4080
+        - False
+      - - 4076
+        - False
+      - - 4067
+        - False
+      - - 4066
+        - False
+      - - 4088
+        - False
+      - - 4089
+        - False
+      - - 4085
+        - False
+      - - 4087
+        - False
+      - - 4086
+        - False
+      - - 4094
+        - False
+      - - 4092
+        - False
+      - - 4091
+        - False
+      - - 4090
+        - False
 - proto: RollingPin
   entities:
   - uid: 2238
@@ -36335,7 +36549,7 @@ entities:
       lastSignals:
         DoorStatus: True
     - type: Door
-      secondsUntilStateChange: -46479.062
+      secondsUntilStateChange: -49238.496
       state: Opening
     - type: Airlock
       autoClose: False
