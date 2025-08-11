@@ -101,7 +101,7 @@ public sealed partial class ChangelingComponent : Component
     public float UpdateCooldown = 1f;
 
     public float BiomassUpdateTimer = 0f;
-    public float BiomassUpdateCooldown = 60f;
+    public float BiomassUpdateCooldown = 120f; // VDS change from 60f
 
     [DataField, AutoNetworkedField]
     public int MaxEvolutionPoints = 10;

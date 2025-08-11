@@ -12,6 +12,7 @@
   - StationAiIconHeartline
   - StationAiIconSmiley
   - StationAiIconJohnnyChaos # imp
+  - StationAiIconBee #imp
 
 - type: stationAiCustomizationGroup
   id: StationAiHolograms
@@ -23,6 +24,10 @@
   - StationAiHologramFace
   - StationAiHologramCat
   - StationAiHologramDog
+  - StationAiHologramBee #imp
+  - StationAiHologramXenophysarum #vds
+  - StationAiHologramMu #vds
+  - StationAiHologramMazMaraz #vds
 
 # Iconography
 - type: stationAiCustomization

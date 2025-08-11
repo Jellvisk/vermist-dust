@@ -7,7 +7,6 @@
   color:  "#b6edf1" #imp
   recognizable: true
   physicalDesc: reagent-physical-desc-reflective
-  slippery: false
   metabolisms:
     Drink:
       effects:
