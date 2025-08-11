@@ -1,0 +1,27 @@
+# Holograms
+- type: stationAiCustomization
+  id: StationAiHologramMazMaraz
+  name: station-ai-hologram-maz-maraz
+  previewKey: Hologram
+  layerData:
+    Hologram:
+      sprite: _VDS/Mobs/Silicon/holograms.rsi
+      state: mazmaraz
+
+- type: stationAiCustomization
+  id: StationAiHologramXenophysarum
+  name: station-ai-hologram-xenophysarum
+  previewKey: Hologram
+  layerData:
+    Hologram:
+      sprite: _VDS/Mobs/Silicon/holograms.rsi
+      state: xenophysarum
+
+- type: stationAiCustomization
+  id: StationAiHologramMu
+  name: station-ai-hologram-mu
+  previewKey: Hologram
+  layerData:
+    Hologram:
+      sprite: _VDS/Mobs/Silicon/holograms.rsi
+      state: mu

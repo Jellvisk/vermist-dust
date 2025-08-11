@@ -5,22 +5,23 @@
   color: "#9FED58" #imp edit, grey for the greytide
   weight: -10
   roles:
+  # roundstart
   - HospitalityDirector
   - Bartender
   - Botanist
-  #- Boxer
-  #- Chaplain
+  - Boxer
+  - Chaplain
   - Chef
   - Clown
   - Janitor
- # - Lawyer hop goon now
-  #- Librarian
+  - Librarian
   - Mime
   - Musician
-  #- Reporter
-  #- Visitor
-  #- Zookeeper
-  #- ServiceWorker
+  - Reporter
+  - Zookeeper
+  # non-roundstart
+  - ServiceWorker
+  - Visitor
 
 #Used for HD playtime requirments
 - type: department

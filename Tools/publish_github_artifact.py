@@ -14,8 +14,8 @@ VERSION = os.environ['GITHUB_SHA']
 # CONFIGURATION PARAMETERS
 # Forks should change these to publish to their own infrastructure.
 #
-ROBUST_CDN_URL = "https://cdn.impstation.gay/"
-FORK_ID = "impstation"
+ROBUST_CDN_URL = "https://cdn.vermistdust.space/"
+FORK_ID = "vermist-dust"
 
 def main():
     print("Fetching artifact URL from API...")
