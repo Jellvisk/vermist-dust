@@ -4,18 +4,16 @@ using Content.Shared.Actions;
 using Content.Shared.Mind;
 using Robust.Shared.Containers;
 using Robust.Shared.Network;
-using Robust.Shared.Prototypes;
 
 namespace Content.Shared._VDS.Vessel.Systems;
 
-public sealed partial class VesselSystem : EntitySystem
+public sealed partial class SharedVesselSystem : EntitySystem
 {
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
     [Dependency] private readonly SharedActionsSystem _actions = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedMindSystem _mindSystem = default!;
-    // TODO: create the sister system/component, Vessel. applied to soul-ful things... and will allow it to enter any Vesselbearer. (likely add a whitelist as an option for finer definition too)
     // TODO: VesselHealth component/system. (separated for modularity). healing passthrough. damage passthrough?
     // TODO: spirit leave on gib.
     // TODO: chained leave action with doafter, as is proper. should probably be a bool toggle so people can use this component for other stuff too
@@ -34,14 +32,12 @@ public sealed partial class VesselSystem : EntitySystem
     #region On
     private void OnMapInit(EntityUid uid, VesselComponent comp, MapInitEvent args)
     {
-        // Insert soul.
-        comp.SoulSlot = _container.EnsureContainer<ContainerSlot>(uid, comp.SlotId);
-        // Add leave body action.
-
+        // Insert controller slot.
+        comp.ControlSlot = _container.EnsureContainer<ContainerSlot>(uid, comp.ControlId);
         // Spawn Initial Entity inside vessel, if any.
-        if (comp.Soul == string.Empty)
+        if (comp.InitialController == string.Empty)
             return;
-        EntityManager.SpawnInContainerOrDrop(comp.Soul, uid, comp.SlotId);
+        EntityManager.SpawnInContainerOrDrop(comp.InitialController, uid, comp.ControlId);
     }
 
     /// <summary>
@@ -55,18 +51,28 @@ public sealed partial class VesselSystem : EntitySystem
 
         TryLeave(uid, comp);
     }
-
+    /// <summary>
+    /// Triggers once when something is put in the ControllerSlot.
+    /// Used to do unique effects upon entry, and giving the
+    /// vessel actions.
+    /// </summary>
     private void OnInhabitedEvent(EntityUid uid, VesselComponent comp, EntGotInsertedIntoContainerMessage args)
     {
-        if (args.Container.ID == comp.SlotId)
+        if (args.Container.ID == comp.ControlId)
             return;
 
         var inserted = args.Entity;
         Inhabited(uid, inserted, comp);
     }
+
+    /// <summary>
+    /// Triggers once when something is removed from the ControllerSlot.
+    /// Used to do unique effects upon ejection, and removing the
+    /// vessel actions.
+    /// </summary>
     private void OnUninhabitedEvent(EntityUid uid, VesselComponent comp, EntGotRemovedFromContainerMessage args)
     {
-        if (args.Container.ID == comp.SlotId)
+        if (args.Container.ID == comp.ControlId)
             return;
 
         var removed = args.Entity;
@@ -79,7 +85,7 @@ public sealed partial class VesselSystem : EntitySystem
 
     public bool IsEmpty(VesselComponent comp)
     {
-        return comp.SoulSlot.ContainedEntity == null;
+        return comp.ControlSlot.ContainedEntity == null;
     }
 
     public bool CanLeave(VesselComponent comp)
@@ -98,85 +104,78 @@ public sealed partial class VesselSystem : EntitySystem
     #endregion
 
     #region Try
+
     /// <summary>
     /// Attempt to insert something into the Vessel.
     /// <summary>
-    private bool TryInsert(EntityUid uid, EntityUid? toInsert, VesselComponent? comp = null)
+    public bool TryInsert(EntityUid uid, EntityUid? toInsert, VesselComponent? comp = null)
     {
         if (!Resolve(uid, ref comp))
             return false;
 
-        if (toInsert == null || comp.SoulSlot.ContainedEntity == toInsert)
+        if (toInsert == null || comp.ControlSlot.ContainedEntity == toInsert)
             return false;
 
         if (!CanInsert(uid, toInsert.Value, comp))
             return false;
 
         Inhabited(uid, toInsert.Value, comp);
-        _container.Insert(toInsert.Value, comp.SoulSlot);
+        _container.Insert(toInsert.Value, comp.ControlSlot);
         return true;
     }
 
     /// <summary>
     /// Attempt to eject whatever is in the Vessel.
     /// <summary>
-    private bool TryLeave(EntityUid uid, VesselComponent? comp = null)
+    public bool TryLeave(EntityUid uid, VesselComponent? comp = null)
     {
         if (!Resolve(uid, ref comp))
             return false;
 
-        if (comp.SoulSlot.ContainedEntity == null)
+        if (comp.ControlSlot.ContainedEntity == null)
             return false;
 
         if (!CanLeave(comp))
             return false;
 
-        var soul = comp.SoulSlot.ContainedEntity.Value;
-
-        Uninhabited(uid, soul);
-        TryMindTransfer(uid, comp);
-        _container.RemoveEntity(uid, soul);
+        var controller = comp.ControlSlot.ContainedEntity.Value;
+        Uninhabited(uid, controller);
+        TryMindTransfer(uid, controller);
+        _container.RemoveEntity(uid, controller);
 
         return true;
     }
 
     /// <summary>
-    /// Attempt to transfer mind from vessel to soul.
+    /// Attempt to transfer mind from vessel to controller.
     /// <summary>
-    private bool TryMindTransfer(EntityUid uid, VesselComponent? comp = null)
+    public bool TryMindTransfer(EntityUid self, EntityUid target)
     {
-        if (!Resolve(uid, ref comp))
+        // ensure the self does in fact have a mind to transfer (and obtain it)
+        if (!_mindSystem.TryGetMind(self, out var mindId, out var mind))
             return false;
 
-        if (!comp.TransferMindOnExit)
-            return false;
-
-        // ensure the vessel does in fact have a mind to transfer (and obtain it)
-        if (!_mindSystem.TryGetMind(uid, out var mindId, out var mind))
-            return false;
-
-        var soul = comp.SoulSlot.ContainedEntity;
-        _mindSystem.TransferTo(mindId, soul, mind: mind);
-
+        _mindSystem.TransferTo(mindId, target, mind: mind);
         return true;
     }
     #endregion
 
     #region Do
-    private void Inhabited(EntityUid vessel, EntityUid soul, VesselComponent? comp = null)
+    private void Inhabited(EntityUid vessel, EntityUid controller, VesselComponent? comp = null)
     {
         if (!Resolve(vessel, ref comp))
             return;
 
         if (_net.IsClient)
             return;
-        _actions.AddAction(vessel, ref comp.LeaveVesselActionEntity, comp.LeaveVesselAction, soul);
+        _actions.AddAction(vessel, ref comp.LeaveVesselActionEntity, comp.LeaveVesselAction, controller);
     }
 
-    private void Uninhabited(EntityUid vessel, EntityUid soul)
+    private void Uninhabited(EntityUid vessel, EntityUid controller)
     {
-        _actions.RemoveProvidedActions(vessel, soul);
+        _actions.RemoveProvidedActions(vessel, controller);
     }
     #endregion
+
     public sealed partial class LeaveVesselEvent : InstantActionEvent;
 }

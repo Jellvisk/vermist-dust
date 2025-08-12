@@ -23,14 +23,15 @@
   - type: CameraRecoil
   - type: Examiner
   - type: CanHostGuardian
-  - type: SoulBearer
-    soulEntity: Soul
+  - type: Vessel
+    initialController: Soul
+    controlId: "soul"
   - type: NpcFactionMember
     factions:
     - NanoTrasen
 
 - type: entity
-  id: ActionLeaveBody
+  id: ActionLeaveVessel
   name: "[color=cyan]Leave Body[/color]"
   description: Yank your own soul out of your body.
   components:
@@ -38,18 +39,18 @@
     icon:
       sprite: Interface/Actions/actions_crit.rsi
       state: fakedeath
-    event: !type:LeaveBodyEvent
+    event: !type:LeaveVesselEvent
     priority: 1
 
 - type: entity
   name: Soul Placeholder
   parent: MobGorilla
-  id: Soul
+  id: PhantasmatronSoul
   components:
     - type: Soul
 
 - type: entity
-  id: ActionEnterBody
+  id: ActionPossess
   name: "[color=cyan]Enter Body[/color]"
   description: Enter your body.
   components:
@@ -57,5 +58,5 @@
     icon:
       sprite: Interface/Actions/actions_crit.rsi
       state: fakedeath
-    event: !type:EnterBodyWithActionEvent
+    event: !type:PossessEvent
     priority: 1

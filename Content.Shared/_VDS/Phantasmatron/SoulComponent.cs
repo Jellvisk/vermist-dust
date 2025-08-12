@@ -1,10 +1,9 @@
-using Content.Shared._VDS.Species.Systems;
 using Content.Shared.Tag;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
-namespace Content.Shared._VDS.Species.Components;
+namespace Content.Shared._VDS.Phantasmatron;
 
 [RegisterComponent, NetworkedComponent]
 [Access(typeof(SoulSystem))]
@@ -14,17 +13,16 @@ public sealed partial class SoulComponent : Component
     /// Prototype: Action to enter.
     /// </summary>
     [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string? EnterBodyAction = "ActionEnterBody";
+    public string? PossessAction = "ActionPossess";
 
     [DataField]
-    public EntityUid? EnterBodyActionEntity;
+    public EntityUid? PossessActionEntity;
 
-    // TODO: soundspecifier datafield for a sound that plays when you enter the mortal coil.
     /// <summary>
     /// SlotID the soul belongs to, normally.
     /// </summary>
     [DataField]
-    public string SlotId = "soul";
+    public string SoulId = "soul";
 
     /// <summary>
     /// Optional list of tags the soul is allowed to inhabit.
@@ -33,13 +31,13 @@ public sealed partial class SoulComponent : Component
     public List<ProtoId<TagPrototype>>? CanInhabitTheseTags;
 
     /// <summary>
-    /// If the entity has a valid tag but no matching SlotId, allow entry anyway by
+    /// If the entity has a valid tag but no matching SoulId, allow entry anyway by
     /// creating a new slot.
     ///
     /// If set to true yet no tags are provided, the soul can inhabit anything.
     /// </summary>
-    [DataField]
-    public bool? CreateSlotIfValidTag = false;
+    [DataField(required: false)]
+    public bool CreateSlotIfValidTag = false;
 
     /// <summary>
     /// If the entry target is inhabited by another soul, swap places with them. Otherwise, nothing happens.

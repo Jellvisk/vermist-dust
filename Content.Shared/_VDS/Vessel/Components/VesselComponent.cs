@@ -22,21 +22,21 @@ public sealed partial class VesselComponent : Component
     /// What currently inhabits this vessel.
     /// </summary>
     [DataField]
-    public EntProtoId Soul = string.Empty;
+    public EntProtoId InitialController = string.Empty;
 
     /// <summary>
-    /// The slot where the soul lives.
+    /// The slot where the driver lives.
     /// </summary>
-    public ContainerSlot SoulSlot = default!; // probably change this to a mind container maybe??
+    public ContainerSlot ControlSlot = default!; // probably change this to a mind container maybe??
 
     /// <summary>
-    /// ID of the slot.
+    /// ID of the ControlSlot
     /// </summary>
     [DataField]
-    public string SlotId = "soul";
+    public string ControlId = "vessel";
 
     /// <summary>
-    /// Whether to transfer the player's mind back to their Soul or not.
+    /// Whether to transfer the controller's mind back to themselves or not.
     /// </summary>
     [DataField]
     public bool TransferMindOnExit = true;
