@@ -5,16 +5,18 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototy
 
 namespace Content.Shared._VDS.Phantasmatron;
 
-[RegisterComponent, NetworkedComponent]
-[Access(typeof(SoulSystem))]
+[RegisterComponent, NetworkedComponent, Access(typeof(SoulSystem)), AutoGenerateComponentState]
 public sealed partial class SoulComponent : Component
 {
     /// <summary>
     /// Prototype: Action to enter.
     /// </summary>
-    [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string? PossessAction = "ActionPossess";
+    [DataField(required: false)]
+    [ViewVariables(VVAccess.ReadWrite)]
+    [AutoNetworkedField]
+    public EntProtoId? PossessAction = "ActionPossess";
 
+    [AutoNetworkedField]
     [DataField]
     public EntityUid? PossessActionEntity;
 
@@ -42,24 +44,24 @@ public sealed partial class SoulComponent : Component
     /// <summary>
     /// If the entry target is inhabited by another soul, swap places with them. Otherwise, nothing happens.
     /// </summary>
-    [DataField]
+    [DataField(required: false)]
     public bool? CanSwapWithInhabitedSoulBearers = false;
 
     /// <summary>
     /// Force swap with minds even if the target has no 'soul', creating one for them in the process.
     /// </summary>
-    [DataField]
+    [DataField(required: false)]
     public bool? ForceSwap = false;
 
     /// <summary>
     /// Prototype that a forcefully swapped minded entity gets placed into.
     /// </summary>
-    [DataField]
-    public EntProtoId VictimFallback;
+    [DataField(required: false)]
+    public EntProtoId? VictimFallback;
 
     /// <summary>
     /// Give the force-swapped victim the SoulComponent, whether their prototype already has it or not.
     /// </summary>
-    [DataField]
+    [DataField(required: false)]
     public SoulComponent? VictimFallbackSoul;
 }

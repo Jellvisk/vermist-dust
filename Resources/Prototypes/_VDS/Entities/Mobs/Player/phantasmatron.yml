@@ -24,7 +24,7 @@
   - type: Examiner
   - type: CanHostGuardian
   - type: Vessel
-    initialController: Soul
+    initialController: PhantasmatronSoul
     controlId: "soul"
   - type: NpcFactionMember
     factions:
@@ -32,15 +32,17 @@
 
 - type: entity
   id: ActionLeaveVessel
+  parent: BaseAction
   name: "[color=cyan]Leave Body[/color]"
   description: Yank your own soul out of your body.
   components:
-  - type: InstantAction
+  - type: Action
+    priority: 1
     icon:
       sprite: Interface/Actions/actions_crit.rsi
       state: fakedeath
+  - type: InstantAction
     event: !type:LeaveVesselEvent
-    priority: 1
 
 - type: entity
   name: Soul Placeholder
@@ -50,13 +52,17 @@
     - type: Soul
 
 - type: entity
+  parent: BaseAction
   id: ActionPossess
   name: "[color=cyan]Enter Body[/color]"
   description: Enter your body.
   components:
-  - type: EntityTargetAction
+  - type: Action
+    priority: 1
     icon:
       sprite: Interface/Actions/actions_crit.rsi
       state: fakedeath
+  - type: TargetAction
+  - type: EntityTargetAction
+    canTargetSelf: false
     event: !type:PossessEvent
-    priority: 1

@@ -6,22 +6,27 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototy
 
 namespace Content.Shared._VDS.Vessel.Components;
 
-[RegisterComponent, NetworkedComponent]
+[RegisterComponent, NetworkedComponent, Access(typeof(SharedVesselSystem)), AutoGenerateComponentState]
 public sealed partial class VesselComponent : Component
 {
     /// <summary>
     /// Prototype: Action to leave.
     /// </summary>
-    [DataField(customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
-    public string? LeaveVesselAction = "ActionLeaveVessel";
+    [DataField(required: false)]
+    [ViewVariables(VVAccess.ReadWrite)]
+    [AutoNetworkedField]
+    public EntProtoId? LeaveVesselAction = "ActionLeaveVessel";
 
     [DataField]
+    [AutoNetworkedField]
     public EntityUid? LeaveVesselActionEntity;
 
     ///<summary>
     /// What currently inhabits this vessel.
     /// </summary>
     [DataField]
+    [ViewVariables(VVAccess.ReadWrite)]
+    [AutoNetworkedField]
     public EntProtoId InitialController = string.Empty;
 
     /// <summary>
@@ -32,18 +37,18 @@ public sealed partial class VesselComponent : Component
     /// <summary>
     /// ID of the ControlSlot
     /// </summary>
-    [DataField]
+    [DataField(required: false)]
     public string ControlId = "vessel";
 
     /// <summary>
     /// Whether to transfer the controller's mind back to themselves or not.
     /// </summary>
-    [DataField]
+    [DataField(required: false)]
     public bool TransferMindOnExit = true;
 
     /// <summary>
     /// If the player has an action to exit their vessel.
     /// </summary>
-    [DataField]
+    [DataField(required: false)]
     public bool CanExit = true;
 }
