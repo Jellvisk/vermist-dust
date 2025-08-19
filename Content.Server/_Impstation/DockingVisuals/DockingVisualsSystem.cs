@@ -1,8 +1,9 @@
 using Content.Shared.Shuttles.Components;
+using Content.Server.Shuttles.Events;
 
 namespace Content.Shared._Impstation.DockingVisuals;
 
-public sealed partial class DockingVisualsSystem : EntitySystem
+public sealed partial class SharedDockingVisualsSystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
@@ -10,7 +11,6 @@ public sealed partial class DockingVisualsSystem : EntitySystem
     {
         base.Initialize();
 
-        SubscribeLocalEvent<SharedDockingVisualsComponent, AppearanceChangeEvent>(OnAppearanceChanged);
     }
 
     private void ChangeAppearance(EntityUid uid)
