@@ -47,24 +47,37 @@
           hard: false
     - type: Sprite
       sprite: _Impstation/Structures/Machines/magdock.rsi
-      snapCardinals: true
+      state: undocked
       layers:
-      - state: undocked
-      - state: undocked_lit
-        shader: unshaded
-        visible: false
-      - state: docked
-      - state: docked_lit
-        shader: unshaded
+
+        - state: docked
+          map: [ "enum.DockedVisualLayers.Base" ]
+        - state: undocked
+          map: [ "enum.DockedVisualLayers.Base" ]
+        - state: docked_lit
+          shader: unshaded
+          visible: false
+          map: [ "enum.DockedVisualLayers.Lights" ]
+        - state: undocked_lit
+          shader: unshaded
+          visible: false
+          map: [ "enum.DockedVisualLayers.Lights" ]
+      snapCardinals: true
     - type: Appearance
     - type: GenericVisualizer
       visuals:
-        enum.DockingComponent.Docked:
-
-
+        enum.DockingVisualLayers.Base:
+          enum.DockingVisualState.Docked:
+            True: { state: docked }
+            False: { state: undocked }
+        enum.DockingVisualLayers.Lights:
+          enum.PowerDeviceVisualLayers.Powered:
+            True: { visible: true }
+            False: { visible: false }
+          enum.DockingVisualState.Docked:
+            True: { state: docked_lit}
+            False: { state: undocked_lit }
     - type: ApcPowerReceiver
       powerLoad: 20
-    - type: Machine
-      board: MagdockMachineCircuitboard
 
 
