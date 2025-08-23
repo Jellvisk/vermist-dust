@@ -6,7 +6,6 @@ namespace Content.Shared._Impstation.DockingVisuals.Components;
 [RegisterComponent]
 public sealed partial class DetectGridMergeComponent : Component
 {
-    [DataField(required: false)]
-    public bool DetectUnmerge = true;
+    public bool Connected = false;
 }
 

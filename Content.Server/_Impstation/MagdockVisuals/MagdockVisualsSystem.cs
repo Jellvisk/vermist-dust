@@ -1,5 +1,6 @@
 
 using Content.Server.Shuttles.Events;
+using Content.Shared._Impstation.DockingVisuals;
 using Content.Shared._Impstation.DockingVisuals.Components;
 using Content.Shared.Instruments;
 using Content.Shared.Shuttles.Components;
@@ -26,31 +27,38 @@ public sealed class MagdockVisualsSystem : EntitySystem
     {
         if (!Resolve(uid, ref comp))
             return;
-        if (!TryComp<AppearanceComponent>(uid, out var appearance))
-            return;
-        _appearance.SetData(uid, DockingVisualLayers.Base, DockingVisualState.Docked, appearance);
-        _appearance.SetData(uid, DockingVisualLayers.Lights, DockingVisualState.Docked, appearance);
+
+        comp.Connected = true;
+        Dirty(uid, comp);
+        UpdateAppearance(uid);
         _sawmill.Debug("WOW YOU DOCKED!!!!!!!!!!!!!!!");
     }
     private void OnGridUndock(EntityUid uid, DetectGridMergeComponent? comp, ref UndockEvent args)
     {
         if (!Resolve(uid, ref comp))
             return;
-        if (!TryComp<AppearanceComponent>(uid, out var appearance))
-            return;
-        _appearance.SetData(uid, DockingVisualLayers.Base, DockingVisualState.Undocked, appearance);
-        _appearance.SetData(uid, DockingVisualLayers.Lights, DockingVisualState.Undocked, appearance);
+
+        comp.Connected = false;
+        Dirty(uid, comp);
+        UpdateAppearance(uid);
         _sawmill.Debug("WOW YOU UUUUUUUUNDOCKED!!!!!!!!!!!!!!!");
     }
+    private void UpdateAppearance(EntityUid uid, DetectGridMergeComponent? comp = null, AppearanceComponent? appearance = null)
+    {
+        if (!Resolve(uid, ref comp, ref appearance, false))
+            return;
 
-    public enum DockingVisualState : byte
-    {
-        Docked,
-        Undocked,
-    }
-    public enum DockingVisualLayers : byte
-    {
-        Base,
-        Lights,
+        _appearance.SetData(
+                uid,
+                DockingVisualLayers.Base,
+                comp.Connected ? DockingVisualState.Docked : DockingVisualState.Undocked,
+                appearance);
+
+        _appearance.SetData(
+                uid,
+                DockingVisualLayers.Lights,
+                comp.Connected ? DockingVisualState.Docked : DockingVisualState.Undocked,
+                appearance);
+
     }
 }

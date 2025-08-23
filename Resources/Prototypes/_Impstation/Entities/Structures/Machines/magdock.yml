@@ -3,14 +3,12 @@
   id: Magdock
   name: magdock
   description: Connect grids together using the power of magnets.
-  placement:
-    mode: SnapgridCenter
   components:
-    - type: Transform
-      noRot: false
     - type: Physics
       bodyType: Static
     - type: Clickable
+    - type: Transform
+      noRot: false
     - type: InteractionOutline
     - type: Anchorable
     - type: Rotatable
@@ -45,39 +43,26 @@
             radius: 0.3
             position: "0,-0.5"
           hard: false
+    - type: DetectGridMerge
     - type: Sprite
       sprite: _Impstation/Structures/Machines/magdock.rsi
-      state: undocked
+      noRot: true
       layers:
-
-        - state: docked
-          map: [ "enum.DockedVisualLayers.Base" ]
         - state: undocked
-          map: [ "enum.DockedVisualLayers.Base" ]
-        - state: docked_lit
-          shader: unshaded
-          visible: false
-          map: [ "enum.DockedVisualLayers.Lights" ]
+          map: [ "enum.DockingVisualLayers.Base" ]
         - state: undocked_lit
           shader: unshaded
-          visible: false
-          map: [ "enum.DockedVisualLayers.Lights" ]
-      snapCardinals: true
+          map: [ "enum.DockingVisualLayers.Lights" ]
     - type: Appearance
     - type: GenericVisualizer
       visuals:
         enum.DockingVisualLayers.Base:
-          enum.DockingVisualState.Docked:
-            True: { state: docked }
-            False: { state: undocked }
+          connected:
+            Docked: { state: docked }
+            Undocked: { state: undocked }
         enum.DockingVisualLayers.Lights:
-          enum.PowerDeviceVisualLayers.Powered:
-            True: { visible: true }
-            False: { visible: false }
-          enum.DockingVisualState.Docked:
-            True: { state: docked_lit}
-            False: { state: undocked_lit }
+          connected:
+            Docked: { state: docked_lit }
+            Undocked: { state: undocked_lit }
     - type: ApcPowerReceiver
       powerLoad: 20
-
-
