@@ -29,7 +29,6 @@ public sealed class MagdockVisualsSystem : EntitySystem
             return;
 
         comp.Connected = true;
-        Dirty(uid, comp);
         UpdateAppearance(uid);
         _sawmill.Debug("WOW YOU DOCKED!!!!!!!!!!!!!!!");
     }
@@ -39,7 +38,6 @@ public sealed class MagdockVisualsSystem : EntitySystem
             return;
 
         comp.Connected = false;
-        Dirty(uid, comp);
         UpdateAppearance(uid);
         _sawmill.Debug("WOW YOU UUUUUUUUNDOCKED!!!!!!!!!!!!!!!");
     }
@@ -48,17 +46,19 @@ public sealed class MagdockVisualsSystem : EntitySystem
         if (!Resolve(uid, ref comp, ref appearance, false))
             return;
 
+        _sawmill.Debug($"Sending Appearance Data for {uid}. {comp.Connected}. {appearance}");
         _appearance.SetData(
                 uid,
                 DockingVisualLayers.Base,
                 comp.Connected ? DockingVisualState.Docked : DockingVisualState.Undocked,
                 appearance);
 
+        _sawmill.Debug($"Set Base Layer Appearance Data for {uid}. {comp.Connected}. {appearance}");
         _appearance.SetData(
                 uid,
                 DockingVisualLayers.Lights,
                 comp.Connected ? DockingVisualState.Docked : DockingVisualState.Undocked,
                 appearance);
-
+        _sawmill.Debug($"Set Base Layer Appearance Data for {uid}. {comp.Connected}. {appearance}");
     }
 }
