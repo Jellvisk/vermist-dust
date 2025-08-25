@@ -25,3 +25,12 @@
     Hologram:
       sprite: _VDS/Mobs/Silicon/holograms.rsi
       state: mu
+
+- type: stationAiCustomization
+  id: StationAiHologramCentauri
+  name: station-ai-hologram-centauri
+  previewKey: Hologram
+  layerData:
+    Hologram:
+      sprite: _VDS/Mobs/Silicon/holograms.rsi
+      state: centauri

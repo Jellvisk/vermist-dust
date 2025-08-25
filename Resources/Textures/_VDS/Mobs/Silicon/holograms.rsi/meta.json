@@ -17,6 +17,9 @@
             "name": "xenophysarum"
         },
         {
+            "name": "centauri"
+        },
+        {
             "name": "ai_male"
         },
         {
@@ -27,6 +30,9 @@
         },
         {
             "name": "mazmaraz_color"
+        },
+        {
+            "name": "centauri_color"
         }
     ]
 }
