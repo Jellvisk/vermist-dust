@@ -47,43 +47,34 @@
             position: "0,-0.5"
           hard: false
     - type: DetectGridMerge
+      connectsTo:
+        - type: WallReplacementMarker
     - type: Sprite
       sprite: _Impstation/Structures/Machines/magdock.rsi
       noRot: false
       snapCardinals: false
       layers:
-        - state: undocked
-          map: ["enum.DockingVisualLayers.Base"]
-        - state: undocked_lit
+        - state: base
+        - state: lit
           shader: unshaded
-          map: ["enum.DockingVisualLayers.Lights"]
+          visible: false
+          map: [ "enum.DockingVisualLayers.Base" ]
+        - state: connected
+          shader: unshaded
+          visible: false
+          map: [ "connected", "enum.DockingVisualLayers.Lights" ]
+    - type: AnimationPlayer
     - type: Appearance
     - type: GenericVisualizer
       visuals:
-        enum.DockingVisualLayers.Base:
-          connected:
-            Docked: {state: "docked"}
-            Undocked: {state: "undocked"}
-          enum.DockingVisualLayers.Docked:
-            connected:
-              True: {visible: true}
-              False: {visible: false}
-          enum.DockingVisualState.Undocked:
-            connected:
-              True: {visible: false}
-              False: {visible: true}
+        enum.PowerDeviceVisuals.Powered:
+          enum.DockingVisualLayers.Base:
+            True: { visible: true}
+            False: { visible: false}
         enum.DockingVisualLayers.Lights:
           connected:
-            Docked: {state: "docked_lit"}
-            Undocked: {state: "undocked_lit"}
-          enum.DockingVisualLayers.Docked:
-            connected:
-              True: {visible: true}
-              False: {visible: false}
-          enum.DockingVisualState.Undocked:
-            connected:
-              True: {visible: false}
-              False: {visible: true}
+            Docked: { visible: true }
+            Undocked: { visible: false }
     - type: ApcPowerReceiver
       powerLoad: 20
     - type: Tag

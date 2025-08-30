@@ -8,28 +8,62 @@
   },
     "states": [
         {
-            "name": "assembly_1",
+            "name": "base",
             "directions": 4
         },
         {
-            "name": "assembly_2",
+            "name": "lit",
             "directions": 4
         },
         {
-            "name": "docked",
-            "directions": 4
-        },
-        {
-            "name": "undocked",
-            "directions": 4
-        },
-        {
-            "name": "docked_lit",
-            "directions": 4
-        },
-        {
-            "name": "undocked_lit",
-            "directions": 4
+            "name": "connected",
+            "directions": 4,
+            "delays": [
+                [
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11
+                ],
+                [
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11
+                ],
+                [
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11
+                ],
+                [
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11,
+                    0.11
+                ]
+            ]
         }
     ]
 }
