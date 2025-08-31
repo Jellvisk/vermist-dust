@@ -4,14 +4,14 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 using Robust.Shared.Toolshed.TypeParsers;
 
-namespace Content.Shared._Impstation.DockingVisuals.Components;
+namespace Content.Shared._Impstation.MagnetStructure.Components;
 
 /// <summary>
 /// Allows the entity to recieve grid merge and unmerge events.
 /// </summary>
 [RegisterComponent, NetworkedComponent]
 [AutoGenerateComponentState(true, true), AutoGenerateComponentPause]
-public sealed partial class DetectGridMergeComponent : Component
+public sealed partial class MagnetStructureComponent : Component
 {
     [DataField, AutoNetworkedField]
     public bool Connected = false;
