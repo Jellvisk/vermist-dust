@@ -127,13 +127,11 @@ namespace Content.Server._Impstation.MagdockVisuals
             _sawmill.Debug($"TryGetValidTarget: {self} is attempting to get a valid target");
             if (!_xformQuery.TryGetComponent(self, out var transform))
             {
-                _sawmill.Debug($"TryGetValidTarget: magnet {self} did not have a transform component {transform}");
+                _sawmill.Debug($"{self} | TryGetValidTarget: magnet {self} did not have a transform component {transform}");
                 valid = null;
                 return false;
             }
 
-            var closestDistance = float.PositiveInfinity;
-            EntityUid? closestUid = null;
             var query = EntityQueryEnumerator<TagComponent>();
             var validTargets = new List<EntityUid>();
 
@@ -146,69 +144,40 @@ namespace Content.Server._Impstation.MagdockVisuals
                 }
             }
 
-            if (validTargets.Count <= 0)
+            if (!TryGetClosestDistance(
+                validTargets,
+                transform,
+                comp.Range,
+                comp.ClosestDistance,
+                out var closest,
+                out var closestDistance))
             {
                 valid = null;
                 return false;
             }
 
-            TryGetClosestDistance(comp, transform, closestDistance, validTargets);
-            _sawmill.Debug($"TryGetValidTarget: {target} has been spotted.");
+            _sawmill.Debug($"{self} | TryGetValidTarget: {closest} has been spotted with a distance of {closestDistance}.");
 
-            // if (!transform.Coordinates.TryDistance(
-            //     EntityManager,
-            //     xForm.Coordinates,
-            //     out var distance)
-            //     || distance > comp.Range
-            //     || distance >= closestDistance
-            //     )
-            // {
-            //     _sawmill.Debug($"TryGetValidTarget: {target} is too far from {self}. {distance} vs max range of {comp.Range}");
-            //     valid = null;
-            //     return false;
-            // }
+            // save data to comp
+            comp.NearestEnt = closest;
+            comp.ClosestDistance = (float)closestDistance;
+            Dirty(self, comp);
 
-            // obtain map coordinates for docking
-            var selfMapCoords = _transform.GetMapCoordinates(self, transform);
-            var targetMapCoords = _transform.GetMapCoordinates(target, xForm);
-            var angle = _transform.GetWorldRotation(self);
-            var dir = angle.GetDir().GetOpposite();
-
-            if (!_dockingSystem.CanDock(
-                selfMapCoords,
-                angle,
-                targetMapCoords,
-                dir.ToAngle()
-                ))
-            {
-                _sawmill.Debug(
-                $"TryGetValidTarget: {self} cannot dock with {target}. coords: {selfMapCoords}, target coords: {targetMapCoords}, angles: {angle}, {dir.ToAngle()}"
-                );
-
-                valid = null;
-                return false;
-            }
-
-            closestDistance = distance;
-            closestUid = target;
-
-            if (comp.NearestEnt != closestUid && closestUid.HasValue)
-            {
-                _sawmill.Debug($"TryGetValidTarget: attempting to dock with {closestUid}");
-                comp.NearestEnt = closestUid;
-                valid = comp.NearestEnt; // temp
-                DirtyField(self, comp, nameof(DetectGridMergeComponent.NearestEnt));
-                EnsureComp<DockingComponent>(self, out var dockA);
-                EnsureComp<DockingComponent>(closestUid.Value, out var dockB);
-                _dockingSystem.Dock((self, dockA), (closestUid.Value, dockB));
-
-                _sawmill.Debug($"docked!");
-                return true;
-            }
-            valid = null;
-            return false;
+            valid = comp.NearestEnt;
+            return true;
         }
 
+        /**
+         * @brief [TODO:description]
+         *
+         * @param validTargets [TODO:parameter]
+         * @param transform [TODO:parameter]
+         * @param range [TODO:parameter]
+         * @param priorDistance [TODO:parameter]
+         * @param out [TODO:parameter]
+         * @param out [TODO:parameter]
+         * @return [TODO:return]
+         */
         public bool TryGetClosestDistance(
                 List<EntityUid> validTargets,
                 TransformComponent transform,
@@ -218,6 +187,14 @@ namespace Content.Server._Impstation.MagdockVisuals
                 [NotNullWhen(true)] out float? closestDistance
                 )
         {
+
+            if (validTargets.Count <= 0)
+            {
+                closestEnt = null;
+                closestDistance = null;
+                return false;
+            }
+
             // infinite detection range if not supplied in args
             range ??= float.PositiveInfinity;
 
