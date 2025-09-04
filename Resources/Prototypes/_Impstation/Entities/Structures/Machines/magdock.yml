@@ -46,35 +46,35 @@
             radius: 0.3
             position: "0,-0.5"
           hard: false
-    - type: DetectGridMerge
+    - type: MagnetStructure
       connectsTo:
-        - type: WallReplacementMarker
+        - Wall
     - type: Sprite
       sprite: _Impstation/Structures/Machines/magdock.rsi
       noRot: false
       snapCardinals: false
       layers:
         - state: base
-        - state: lit
-          shader: unshaded
-          visible: false
-          map: [ "enum.DockingVisualLayers.Base" ]
-        - state: connected
-          shader: unshaded
-          visible: false
-          map: [ "connected", "enum.DockingVisualLayers.Lights" ]
+        # - state: lit
+        #   shader: unshaded
+        #   visible: false
+        #   map: [ "enum.DockingVisualLayers.Base" ]
+        # - state: connected
+        #   shader: unshaded
+        #   visible: false
+        #   map: [ "connected", "enum.DockingVisualLayers.Lights" ]
     - type: AnimationPlayer
     - type: Appearance
-    - type: GenericVisualizer
-      visuals:
-        enum.PowerDeviceVisuals.Powered:
-          enum.DockingVisualLayers.Base:
-            True: { visible: true}
-            False: { visible: false}
-        enum.DockingVisualLayers.Lights:
-          connected:
-            Docked: { visible: true }
-            Undocked: { visible: false }
+    # - type: GenericVisualizer
+    #   visuals:
+    #     enum.PowerDeviceVisuals.Powered:
+    #       enum.DockingVisualLayers.Base:
+    #         True: { visible: true}
+    #         False: { visible: false}
+    #     enum.DockingVisualLayers.Lights:
+    #       connected:
+    #         Docked: { visible: true }
+    #         Undocked: { visible: false }
     - type: ApcPowerReceiver
       powerLoad: 20
     - type: Tag
