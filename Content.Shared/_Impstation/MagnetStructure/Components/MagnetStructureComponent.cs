@@ -1,5 +1,6 @@
 using Content.Shared.Tag;
 using Robust.Shared.GameStates;
+using Robust.Shared.Physics.Dynamics.Joints;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
@@ -8,9 +9,12 @@ namespace Content.Shared._Impstation.MagnetStructure.Components;
 /// <summary>
 /// Allows the entity to recieve grid merge and unmerge events.
 /// </summary>
-[NetworkedComponent, AutoGenerateComponentState]
-public abstract partial class SharedMagnetStructureComponent : Component
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true, fieldDeltas: true), AutoGenerateComponentPause]
+public sealed partial class MagnetStructureComponent : Component
 {
+    public WeldJoint? MagnetJoint = null;
+    public string? MagnetJointId = null;
+
     [DataField]
     public bool Connected = false;
 
@@ -45,12 +49,24 @@ public abstract partial class SharedMagnetStructureComponent : Component
     /// The connect range.
     /// </summary>
     [DataField]
-    public float ConnectRange = 5f;
+    public float ConnectRange = 1.5f;
 
     /// <summary>
     /// A list of entities that we are alllowed to attach to.
     /// </summary>
     [DataField(required: true)]
     public List<ProtoId<TagPrototype>> ConnectsTo;
+
+    /// <summary>
+    /// When the next proximity check will trigger.
+    /// </summary>
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField, AutoPausedField]
+    public TimeSpan NextUpdate = TimeSpan.Zero;
+
+    /// <summary>
+    /// Next time the proximity alert will update.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public TimeSpan UpdateCooldown = TimeSpan.FromSeconds(2);
 }
 

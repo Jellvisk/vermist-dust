@@ -34,7 +34,7 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
     /// </summary>
     public bool IsMagnetValid(
             EntityUid uid,
-            SharedMagnetStructureComponent comp
+            MagnetStructureComponent comp
             )
     {
         // check if magnet is powered or not
@@ -54,6 +54,7 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
 
         return true;
     }
+    // connect to different grids only
     #endregion
     #region Get
     #endregion
@@ -65,7 +66,7 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
     /// </summary>
     public bool TryGetValidTarget(
             EntityUid self,
-            SharedMagnetStructureComponent comp,
+            MagnetStructureComponent comp,
             [NotNullWhen(true)] out EntityUid? valid
             )
     {
@@ -77,13 +78,13 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
             return false;
         }
 
-        var query = EntityQueryEnumerator<TagComponent>();
+        var query = EntityQueryEnumerator<MagneticComponent>();
         var validTargets = new List<EntityUid>();
 
         // check if any tags match
         while (query.MoveNext(out var target, out var _))
         {
-            if (_tag.HasAnyTag(target, comp.ConnectsTo))
+            if (TryGetXFormPair(self, target, out var _, out var _))
             {
                 validTargets.Add(target);
             }
@@ -106,9 +107,9 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
         // save data to comp
         comp.NearestEnt = closest;
         comp.ClosestDistance = (float)closestDistance;
+        valid = comp.NearestEnt;
         Dirty(self, comp);
 
-        valid = comp.NearestEnt;
         return true;
     }
 
@@ -164,8 +165,8 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
                      EntityManager,
                      xForm.Coordinates,
                      out var distance)
-                    || distance < range
-                    || distance <= closest
+                    && distance <= closest
+                    && distance < range
                )
             {
                 closest = distance; // update the closest distance we've got
@@ -187,12 +188,38 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
                 _sawmill.Debug($"TryGetClosestDistance: New Closest Entity: {closestEnt}, distance: {closestDistance}");
                 return false;
             default:
-                var sorted = distances.OrderByDescending(pair => pair.Value);
+                var sorted = distances.OrderBy(pair => pair.Value);
                 closestEnt = sorted.First().Key;
                 closestDistance = sorted.First().Value;
                 _sawmill.Debug($"TryGetClosestDistance: New Closest Entity: {closestEnt}, distance: {closestDistance}");
                 return true;
         }
+    }
+    public bool TryGetXFormPair(
+            EntityUid self,
+            EntityUid target,
+            [NotNullWhen(true)] out TransformComponent? selfXForm,
+            [NotNullWhen(true)] out TransformComponent? targetXForm
+            )
+    {
+        if (!_xformQuery.TryGetComponent(self, out var foundSelfXForm) ||
+            !_xformQuery.TryGetComponent(target, out var foundTargetXForm))
+        {
+            selfXForm = null;
+            targetXForm = null;
+            return false;
+        }
+        // make sure they dont exist on the same grid
+        if (foundSelfXForm.GridUid == foundTargetXForm.GridUid)
+        {
+            selfXForm = null;
+            targetXForm = null;
+            return false;
+        }
+
+        selfXForm = foundSelfXForm;
+        targetXForm = foundTargetXForm;
+        return true;
     }
     /// <summary>
     ///
@@ -204,16 +231,13 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
             [NotNullWhen(true)] out (EntityUid targetGridUid, TransformComponent targetXform, PhysicsComponent targetPhysics)? targetGrid
             )
     {
-        if (!_xformQuery.TryGetComponent(self, out var foundSelfXForm) ||
-            !_xformQuery.TryGetComponent(target, out var foundTargetXForm))
-        {
-            selfGrid = null;
-            targetGrid = null;
-            return false;
-        }
-        // connect to different grids only
-        if (!foundTargetXForm.GridUid.HasValue || !foundSelfXForm.GridUid.HasValue ||
-            foundSelfXForm.GridUid == foundTargetXForm.GridUid)
+        if (!TryGetXFormPair(
+            self, target,
+            out var foundSelfXForm,
+            out var foundTargetXForm) ||
+            !foundSelfXForm.GridUid.HasValue ||
+            !foundTargetXForm.GridUid.HasValue
+        )
         {
             selfGrid = null;
             targetGrid = null;
