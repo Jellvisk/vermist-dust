@@ -14,15 +14,10 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly ILogManager _logMan = default!;
 
-    [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly SharedJointSystem _jointSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private const string MagnetJoint = "magnet";
-
-    private EntityQuery<MapGridComponent> _gridQuery;
-    private EntityQuery<PhysicsComponent> _physicsQuery;
-    private EntityQuery<TransformComponent> _xformQuery;
 
     private ISawmill _sawmill = default!;
 
@@ -30,9 +25,6 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
     {
         base.Initialize();
         _sawmill = _logMan.GetSawmill("magdock");
-        _gridQuery = GetEntityQuery<MapGridComponent>();
-        _physicsQuery = GetEntityQuery<PhysicsComponent>();
-        _xformQuery = GetEntityQuery<TransformComponent>();
 
         SubscribeLocalEvent<MagnetStructureComponent, MapInitEvent>(OnMapInit);
     }
@@ -54,7 +46,6 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
         {
             if (!IsMagnetValid(uid, comp))
             {
-                _sawmill.Debug($"invalid magnet");
                 continue;
             }
 
@@ -63,10 +54,9 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
                 continue;
             }
 
-            _sawmill.Debug($"fuck.");
             comp.NextUpdate += comp.UpdateCooldown;
-
             DirtyField(uid, comp, nameof(MagnetStructureComponent.NextUpdate));
+
             if (TryGetValidTarget(uid, comp, out var valid) && valid.HasValue)
             {
                 _sawmill.Debug($"Update: TryGetValidTarget: Returned True. TryConnect next..");
@@ -81,6 +71,11 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
 
     #endregion
     #region Try
+    public bool TryDisconnect(EntityUid self)
+    {
+
+
+    }
     public bool TryConnect(EntityUid self, MagnetStructureComponent comp, EntityUid target)
     {
         if (comp.Connected)
@@ -173,6 +168,9 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
         // yay
         comp.MagnetJoint = joint;
         comp.MagnetJointId = joint.ID;
+        comp.Connected = true;
+        Dirty(self, comp);
+
         _sawmill.Debug($"Connect: {self} has connected to {target}, welding {selfGridUid} and {targetGridUid} with joint {joint.ID}");
         // TODO: raise events
     }

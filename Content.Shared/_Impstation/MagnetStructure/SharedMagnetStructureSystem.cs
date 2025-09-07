@@ -6,6 +6,7 @@ using Content.Shared.Power.EntitySystems;
 using Content.Shared.Tag;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Generic;
 
 namespace Content.Shared._Impstation.MagnetStructure;
 
@@ -14,6 +15,7 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
     [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly ILogManager _logMan = default!;
     [Dependency] private readonly SharedPowerReceiverSystem _power = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
 
     private EntityQuery<TransformComponent> _xformQuery;
 
@@ -34,13 +36,11 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
     /// </summary>
     public bool IsMagnetValid(
             EntityUid uid,
-            MagnetStructureComponent comp
-            )
+            MagnetStructureComponent comp)
     {
         // check if magnet is powered or not
-        if (!_power.IsPowered(uid))
+        if (comp.Connected || !_power.IsPowered(uid))
         {
-            _sawmill.Debug($"IsMagnetValid: magnet {uid} does not have power.");
             return false;
         }
 
@@ -54,7 +54,13 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
 
         return true;
     }
-    // connect to different grids only
+
+    public bool CanDisconnect(
+            EntityUid uid,
+            MagnetStructureComponent comp)
+    {
+
+    }
     #endregion
     #region Get
     #endregion
@@ -78,11 +84,11 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
             return false;
         }
 
-        var query = EntityQueryEnumerator<MagneticComponent>();
+        var look = _lookup.GetEntitiesInRange<MagneticComponent>(transform.Coordinates, comp.Range);
         var validTargets = new List<EntityUid>();
 
-        // check if any tags match
-        while (query.MoveNext(out var target, out var _))
+        // add targets to list
+        foreach (var target in look)
         {
             if (TryGetXFormPair(self, target, out var _, out var _))
             {
