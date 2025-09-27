@@ -1,14 +1,14 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
-using Content.Shared._Impstation.MagnetStructure.Components;
+using Content.Shared._VDS.MagnetStructure.Components;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Tag;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Generic;
 
-namespace Content.Shared._Impstation.MagnetStructure;
+namespace Content.Shared._VDS.MagnetStructure;
 
 public abstract partial class SharedMagnetStructureSystem : EntitySystem
 {

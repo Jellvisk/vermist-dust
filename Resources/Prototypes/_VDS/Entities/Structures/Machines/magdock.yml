@@ -50,7 +50,7 @@
       connectsTo:
         - Wall
     - type: Sprite
-      sprite: _Impstation/Structures/Machines/magdock.rsi
+      sprite: _VDS/Structures/Machines/magdock.rsi
       noRot: false
       snapCardinals: false
       layers:

@@ -4,7 +4,7 @@ using Robust.Shared.Physics.Dynamics.Joints;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
-namespace Content.Shared._Impstation.MagnetStructure.Components;
+namespace Content.Shared._VDS.MagnetStructure.Components;
 
 /// <summary>
 /// Allows the entity to recieve grid merge and unmerge events.

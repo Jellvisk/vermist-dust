@@ -1,5 +1,5 @@
-using Content.Shared._Impstation.MagnetStructure;
-using Content.Shared._Impstation.MagnetStructure.Components;
+using Content.Shared._VDS.MagnetStructure;
+using Content.Shared._VDS.MagnetStructure.Components;
 using Content.Shared.Tag;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics.Components;
@@ -7,7 +7,7 @@ using Robust.Shared.Physics.Dynamics.Joints;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
 
-namespace Content.Server._Impstation.MagnetStructure.Systems;
+namespace Content.Server._VDS.MagnetStructure.Systems;
 
 public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
 {
