@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Numerics;
 using Content.Shared._VDS.MagnetStructure.Components;
+using Content.Shared._VDS.MagnetStructure.Events;
 using Content.Shared.Power.EntitySystems;
 using Content.Shared.Tag;
 using Robust.Shared.Physics.Components;
@@ -12,13 +13,17 @@ namespace Content.Shared._VDS.MagnetStructure;
 
 public abstract partial class SharedMagnetStructureSystem : EntitySystem
 {
-    [Dependency] private readonly TagSystem _tag = default!;
     [Dependency] private readonly ILogManager _logMan = default!;
     [Dependency] private readonly SharedPowerReceiverSystem _power = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!;
+
+    private const float MaxMagnetismForce = 500f; // Maximum magnetism force at point blank range.
+    private const float MinMagnetismDistance = 0.5f; // Minimum distance for impulse magnetism, to prevent division by zero.
+    private const float ForceMultiplier = 80f;   // Tuning constant for magnetism
 
     private EntityQuery<TransformComponent> _xformQuery;
-
     private ISawmill _sawmill = default!;
 
     public override void Initialize()
@@ -55,14 +60,10 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
         return true;
     }
 
-    public bool CanDisconnect(
-            EntityUid uid,
-            MagnetStructureComponent comp)
-    {
-
-    }
     #endregion
+
     #region Get
+
     #endregion
 
     #region Try
@@ -90,9 +91,10 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
         // add targets to list
         foreach (var target in look)
         {
-            if (TryGetXFormPair(self, target, out var _, out var _))
+            if (TryGetXFormPair(transform, target, out var _))
             {
                 validTargets.Add(target);
+                ApplyMagneticForce(self, target);
             }
         }
 
@@ -227,8 +229,31 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
         targetXForm = foundTargetXForm;
         return true;
     }
+
+    public bool TryGetXFormPair(
+            TransformComponent self,
+            EntityUid target,
+            [NotNullWhen(true)] out TransformComponent? targetXForm
+            )
+    {
+        if (!_xformQuery.TryGetComponent(target, out var foundTargetXForm))
+        {
+            targetXForm = null;
+            return false;
+        }
+        // make sure they dont exist on the same grid
+        if (self.GridUid == foundTargetXForm.GridUid)
+        {
+            targetXForm = null;
+            return false;
+        }
+
+        targetXForm = foundTargetXForm;
+        return true;
+    }
+
     /// <summary>
-    ///
+    /// Takes in two entities, returns their gridUid, transform component, and physics component.
     /// </summary>
     public bool TryGetConnectionData(
             EntityUid self,
@@ -273,6 +298,149 @@ public abstract partial class SharedMagnetStructureSystem : EntitySystem
         );
         return true;
     }
+
+    /// <summary>
+    /// Try to connect two grids together, sending an
+    /// event to the server if true.
+    /// </summary>
+    /// <param name="self"> EntityUid on the first grid to
+    /// attempt the weld at.</param>
+    /// <param name="target"> EntityUid on the target grid to
+    /// attempt the weld at.</param>
+    public bool TryConnect(
+        EntityUid self,
+        EntityUid target,
+        float connectRange = 1.5f
+        )
+    {
+        if (!TryGetConnectionData(
+            self, target,
+            out var selfGrid,
+            out var targetGrid)
+            || !selfGrid.HasValue
+            || !targetGrid.HasValue
+            )
+            return false;
+        _sawmill.Debug($"TryConnect: Got data.");
+
+        var (selfGridUid, selfXForm, selfPhysics) = selfGrid.Value;
+        var (targetGridUid, targetXForm, targetPhysics) = targetGrid.Value;
+
+        if (!selfXForm.Coordinates.TryDistance(
+            EntityManager,
+            targetXForm.Coordinates,
+            out var distance)
+            || distance >= connectRange
+        )
+            return false;
+
+        var packedSelf = (self, selfGridUid, selfXForm, selfPhysics);
+        var packedTarget = (target, targetGridUid, targetXForm, targetPhysics);
+
+        // raise event to server-side MagnetStructureSystem
+        var ev = new MagneticConnectEvent(
+                packedSelf,
+                packedTarget
+        );
+        _sawmill.Debug($"TryConnect: Raising Event...");
+        RaiseLocalEvent(self, ev);
+        return true;
+    }
+
+
+    /// <summary>
+    /// Sends an event to the server to remove a joint.
+    /// </summary>
+    public bool TryDisconnect(
+            EntityUid self
+            )
+    {
+        if (!TryComp<MagnetStructureComponent>(self, out var comp) || comp.MagnetJoint == null)
+            return false;
+
+        // raise event to server-side MagnetStructureSystem
+        var ev = new MagneticDisconnectEvent(
+                self,
+                comp.MagnetJoint
+        );
+        _sawmill.Debug($"TryDisconnect: Raising Event...");
+        RaiseLocalEvent(self, ev);
+        return true;
+    }
+    #endregion
+    #region Do
+
+    public void ApplyMagneticForce(
+            EntityUid magnet, EntityUid target,
+            float magnetism = 1f,
+            float magnetStrength = 2f,
+            float magnetRange = 20f
+            )
+    {
+        _sawmill.Debug($"ApplyMagneticForce: Trying to apply.");
+        if (!TryGetConnectionData(
+            magnet, target,
+            out var magnetData,
+            out var targetData)
+            || !magnetData.HasValue
+            || !targetData.HasValue
+            )
+            return;
+
+        // use magnetstructurecomp and magneticcomponent values if they exist
+        if (TryComp<MagnetStructureComponent>(magnet, out var magnetComp))
+        {
+            magnetStrength = magnetComp.Strength;
+            magnetRange = magnetComp.Range;
+        }
+
+        if (TryComp<MagneticComponent>(target, out var targetComp))
+        {
+            magnetism = targetComp.Magnetism;
+        }
+        _sawmill.Debug($"ApplyMagneticForce: Strength = {magnetStrength}, magnetism = {magnetism}");
+
+        var (magnetGridUid, magnetXForm, magnetPhysics) = magnetData.Value;
+        var (targetGridUid, targetXForm, targetPhysics) = targetData.Value;
+
+        if (!magnetXForm.Coordinates.TryDistance
+                (
+                 EntityManager,
+                 targetXForm.Coordinates,
+                 out var distance)
+           )
+            return;
+
+        // get world direction
+        var magnetWorldPos = _transform.GetWorldPosition(magnetXForm);
+        var targetWorldPos = _transform.GetWorldPosition(targetXForm);
+
+        var direction = magnetWorldPos - targetWorldPos;
+        var normalizedDirection = direction / distance;
+
+        // Use inverse square law with minimum distance clamp
+        var effectiveDistance = Math.Max(distance, MinMagnetismDistance);
+
+        // F = k * (m1 * m2) / r^2, where m1 and m2 are magnetic "charges"
+        var baseForce = (magnetStrength * magnetism) / (effectiveDistance * effectiveDistance);
+        var forceStrength = baseForce * ForceMultiplier;
+
+        // distance-based falloff
+        var falloffFactor = 1f - (distance / magnetRange);
+        forceStrength *= falloffFactor * falloffFactor; // Quadratic falloff
+
+        forceStrength = Math.Min(forceStrength, MaxMagnetismForce);
+
+        // Consider object velocity for damping (prevents oscillation)
+        var velocityDamping = Math.Max(0.1f, 1f - (targetPhysics.LinearVelocity.Length() * 0.1f));
+        forceStrength *= velocityDamping;
+
+        var magneticForce = normalizedDirection * forceStrength;
+        _sawmill.Debug($"ApplyMagneticForce: Applying force of {magneticForce}");
+        _physics.ApplyLinearImpulse(targetGridUid, magneticForce / 2, body: targetPhysics);
+        _physics.ApplyLinearImpulse(magnetGridUid, magneticForce / 2, body: magnetPhysics);
+    }
+
     #endregion
 }
 

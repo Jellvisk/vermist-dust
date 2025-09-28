@@ -22,7 +22,7 @@ public sealed partial class MagnetStructureComponent : Component
     public EntityUid? ConnectedTo = null;
 
     [DataField]
-    public float JointStiffness = 2f;
+    public float JointStiffness = 1f;
 
     [DataField]
     public float JointDamping = 0.7f;
@@ -40,22 +40,22 @@ public sealed partial class MagnetStructureComponent : Component
     public float ClosestDistance = float.PositiveInfinity;
 
     /// <summary>
-    /// How far to search for valid entities.
+    /// The range of the magnet's pull.
     /// </summary>
     [DataField]
     public float Range = 20f;
+
+    /// <summary>
+    /// Strength of the magnet's pull.
+    /// </summary>
+    [DataField]
+    public float Strength = 2f;
 
     /// <summary>
     /// The connect range.
     /// </summary>
     [DataField]
     public float ConnectRange = 1.5f;
-
-    /// <summary>
-    /// A list of entities that we are alllowed to attach to.
-    /// </summary>
-    [DataField(required: true)]
-    public List<ProtoId<TagPrototype>> ConnectsTo;
 
     /// <summary>
     /// When the next proximity check will trigger.
@@ -67,6 +67,6 @@ public sealed partial class MagnetStructureComponent : Component
     /// Next time the proximity alert will update.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public TimeSpan UpdateCooldown = TimeSpan.FromSeconds(2);
+    public TimeSpan UpdateCooldown = TimeSpan.FromMilliseconds(500); // half a second
 }
 

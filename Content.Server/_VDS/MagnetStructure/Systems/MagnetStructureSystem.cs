@@ -1,5 +1,7 @@
 using Content.Shared._VDS.MagnetStructure;
 using Content.Shared._VDS.MagnetStructure.Components;
+using Content.Shared._VDS.MagnetStructure.Events;
+using Content.Shared.Power;
 using Content.Shared.Tag;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics.Components;
@@ -27,6 +29,12 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
         _sawmill = _logMan.GetSawmill("magdock");
 
         SubscribeLocalEvent<MagnetStructureComponent, MapInitEvent>(OnMapInit);
+
+        SubscribeLocalEvent<MagnetStructureComponent, MagneticConnectEvent>(OnMagneticConnect);
+        SubscribeLocalEvent<MagnetStructureComponent, MagneticDisconnectEvent>(OnMagnetDisconnect);
+        SubscribeLocalEvent<MagnetStructureComponent, PowerChangedEvent>(OnPowerChangedEvent);
+
+        SubscribeLocalEvent<MagnetStructureComponent, ComponentShutdown>(OnShutdown);
     }
 
     #region On
@@ -57,75 +65,74 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
             comp.NextUpdate += comp.UpdateCooldown;
             DirtyField(uid, comp, nameof(MagnetStructureComponent.NextUpdate));
 
-            if (TryGetValidTarget(uid, comp, out var valid) && valid.HasValue)
+            if (TryGetValidTarget(uid, comp, out var target) && target.HasValue)
             {
                 _sawmill.Debug($"Update: TryGetValidTarget: Returned True. TryConnect next..");
-                TryConnect(uid, comp, valid.Value);
+                TryConnect(uid, target.Value);
             }
         }
     }
+
+    // undock if the component is removed/destroyed/something
+    private void OnShutdown(Entity<MagnetStructureComponent> ent, ref ComponentShutdown args)
+    {
+        TryDisconnect(ent);
+    }
+
+    private void OnPowerChangedEvent(Entity<MagnetStructureComponent> ent, ref PowerChangedEvent args)
+    {
+        // TODO: Power on noise?
+        if (!args.Powered)
+        {
+            TryDisconnect(ent.Owner);
+
+        }
+    }
+
+    private void OnMagneticConnect(Entity<MagnetStructureComponent> ent, ref MagneticConnectEvent args)
+    {
+        _sawmill.Debug($"OnMagneticConnect: MagneticConnectEvent received.");
+        Connect(
+            args.Source,
+            args.Target,
+            ent.Comp.JointStiffness,
+            ent.Comp.JointDamping,
+            ent.Comp.MagnetJointId
+            );
+    }
+
+    private void OnMagnetDisconnect(Entity<MagnetStructureComponent> ent, ref MagneticDisconnectEvent args)
+    {
+        _sawmill.Debug($"OnMagneticDisconnect: MagneticDisconnectEvent received from {args.Source}, joint of {args.Joint}");
+        Disconnect(args.Source, args.Joint);
+    }
     #endregion
+
     #region Can
-    // public bool CanConnect()
 
 
     #endregion
+
     #region Try
-    public bool TryDisconnect(EntityUid self)
-    {
 
-
-    }
-    public bool TryConnect(EntityUid self, MagnetStructureComponent comp, EntityUid target)
-    {
-        if (comp.Connected)
-            return false;
-
-        if (!TryGetConnectionData(
-            self, target,
-            out var selfGrid,
-            out var targetGrid)
-            || !selfGrid.HasValue
-            || !targetGrid.HasValue
-            )
-            return false;
-        _sawmill.Debug($"TryConnect: Got data.");
-
-        var (selfGridUid, selfXForm, selfPhysics) = selfGrid.Value;
-        var (targetGridUid, targetXForm, targetPhysics) = targetGrid.Value;
-
-        if (!selfXForm.Coordinates.TryDistance(
-            EntityManager,
-            targetXForm.Coordinates,
-            out var distance)
-            || distance >= comp.ConnectRange
-        )
-            return false;
-
-        var packedSelf = (self, selfGridUid, selfXForm, selfPhysics);
-        var packedTarget = (target, targetGridUid, targetXForm, targetPhysics);
-
-        // TODO: turn into event instead?
-        _sawmill.Debug($"TryConnect: Trying to connect.");
-        Connect(packedSelf, packedTarget, comp);
-
-        return true;
-    }
     #endregion
 
     #region Do
 
     /// <summary>
-    /// Connects two grids together.
+    /// Connects two grids together. This does not check if it should be possible or not.
     /// </summary>
     /// <param name="selfGrid">A tuple containing an EntityUid, the EntityUid of its grid,
     /// a grid transform component, and a grid physics component.</param>
     /// <param name="targetGrid"><paramref name="selfGrid"/></param>
     /// <param name="comp">The MagnetStructureComponent to store and receive joint data from.</param>
-    private void Connect(
+    public void Connect(
         (EntityUid self, EntityUid selfGridUid, TransformComponent selfXForm, PhysicsComponent selfPhysics) selfGrid,
         (EntityUid target, EntityUid targetGridUid, TransformComponent targetXForm, PhysicsComponent targetPhysics) targetGrid,
-        MagnetStructureComponent comp
+        float jointStiffness = 2f,
+        float jointDamping = 0.7f,
+        string? jointId = null
+
     )
     {
         // unpack for ease of use
@@ -134,8 +141,8 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
 
         // obtain joint damping and stiffness
         SharedJointSystem.LinearStiffness(
-            comp.JointStiffness,
-            comp.JointDamping,
+            jointStiffness,
+            jointDamping,
             selfPhysics.Mass,
             targetPhysics.Mass,
             out var stiffness,
@@ -143,10 +150,11 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
 
         WeldJoint joint;
 
-        // use any existing joints instead
-        if (comp.MagnetJointId != null)
+
+        // create joint or use any existing joints instead
+        if (jointId != null)
         {
-            joint = _jointSystem.GetOrCreateWeldJoint(selfGridUid, targetGridUid, comp.MagnetJointId);
+            joint = _jointSystem.GetOrCreateWeldJoint(selfGridUid, targetGridUid, jointId);
         }
         else
         {
@@ -165,14 +173,48 @@ public sealed partial class MagnetStructureSystem : SharedMagnetStructureSystem
         joint.Stiffness = stiffness;
         joint.Damping = damping;
 
-        // yay
-        comp.MagnetJoint = joint;
-        comp.MagnetJointId = joint.ID;
-        comp.Connected = true;
-        Dirty(self, comp);
+        // save data to component if possible
+        if (TryComp<MagnetStructureComponent>(self, out var comp))
+        {
+            comp.Connected = true;
+            comp.ClosestDistance = float.NegativeInfinity;
+            comp.ConnectedTo = target;
+            comp.MagnetJoint = joint;
+            comp.MagnetJointId = joint.ID;
+            Dirty(self, comp);
+        }
+        else
+        {
+            // for the sick freaks that call this method without the magnetstructurecomponent for some reason.
+            _sawmill.Debug($"""
+                    Connect: Merging grids {selfGrid} and {targetGrid} via magnetism, but no MagnetStructureComponent found on uid {self}. Merging grids anyway.
+
+                    This can cause unforseen problems, but I trust you.
+                    """
+                    );
+        }
 
         _sawmill.Debug($"Connect: {self} has connected to {target}, welding {selfGridUid} and {targetGridUid} with joint {joint.ID}");
-        // TODO: raise events
     }
+
+    /// <summary>
+    /// Removes a joint.
+    /// </summary>
+    public void Disconnect(EntityUid uid, WeldJoint joint)
+    {
+        _jointSystem.RemoveJoint(joint);
+
+        if (TryComp<MagnetStructureComponent>(uid, out var comp))
+        {
+            comp.Connected = false;
+            comp.ClosestDistance = float.PositiveInfinity;
+            comp.ConnectedTo = null;
+            comp.MagnetJoint = null;
+            comp.MagnetJointId = null;
+            Dirty(uid, comp);
+        }
+    }
+
+
     #endregion
 }

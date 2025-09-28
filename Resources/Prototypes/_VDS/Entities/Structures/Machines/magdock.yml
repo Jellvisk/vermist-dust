@@ -47,8 +47,6 @@
             position: "0,-0.5"
           hard: false
     - type: MagnetStructure
-      connectsTo:
-        - Wall
     - type: Sprite
       sprite: _VDS/Structures/Machines/magdock.rsi
       noRot: false
