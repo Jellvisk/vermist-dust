@@ -130,14 +130,22 @@
     - !type:RobustHarvest {}
   metabolisms:
     Poison:
+      # Begin Offbrand
+      metabolismRate: 0.2
+      statusEffects:
+      - statusEffect: StatusEffectPainkillersNegligibleRobustHarvest
+        conditions:
+        - !type:OrganType
+          type: Plant
       effects:
       - !type:HealthChange
         damage:
           types:
-            Poison: -2
-            Blunt: -3
-            Slash: -3
-            Piercing: -3
+            Poison: -1
+      - !type:EvenHealthChange
+        damage:
+          Brute: -1 # Offbrand
+      # End Offbrand
         conditions:
         - !type:OrganType
           type: Plant
@@ -152,8 +160,10 @@
             Asphyxiation: 1
             Heat: 2
             Poison: 1
-    Medicine:
-      effects:
+    # Begin Offbrand Removals
+    # Medicine:
+    #   effects:
+    # End Offbrand Removals
       - !type:Polymorph
         prototype: TreeMorph
         conditions:
@@ -161,6 +171,8 @@
             type: Plant
           - !type:ReagentThreshold
             min: 40 #imp edit (was 80)
+          - !type:MetaboliteThreshold # Offbrand
+            min: 80
 
 - type: reagent
   id: Sedin
@@ -177,6 +189,33 @@
       probability: 0.20
     - !type:PlantAdjustPotency
       amount: -3 # Match this with current rate of Robust Harvest potency increase
+  # Begin Offbrand
+  metabolisms:
+    Poison:
+      metabolismRate: 1
+      statusEffects:
+      - statusEffect: StatusEffectHeartStrainSedin
+      effects:
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 2
+      - !type:CreateEntityReactionEffect
+        entity: MobDionaNymph
+        conditions:
+        - !type:OrganType
+          type: Plant
+        - !type:ReagentThreshold
+          min: 40
+      - !type:AdjustReagent
+        reagent: Sedin
+        amount: -20
+        conditions:
+        - !type:OrganType
+          type: Plant
+        - !type:ReagentThreshold
+          min: 40
+  # End Offbrand
 
 - type: reagent
   id: WeedKiller
@@ -224,6 +263,17 @@
         damage:
           types:
             Caustic: 1
+      # Begin Offbrand
+        conditions:
+        - !type:OrganType
+          type: Plant
+          shouldHave: false
+      - !type:SatiateHunger
+        factor: 1
+        conditions:
+        - !type:OrganType
+          type: Plant
+      # End Offbrand
     Gas:
       effects:
       - !type:HealthChange
@@ -287,12 +337,11 @@
         conditions:
         - !type:OrganType
           type: Vox
-        factor: -4
+        factor: -1 # Offbrand
       - !type:Oxygenate #imp, thaven can breathe all gases safely
         conditions:
         - !type:OrganType
           type: Thaven
-
 
 - type: reagent
   id: Diethylamine
@@ -318,8 +367,24 @@
   - !type:PlantDiethylamine {}
   metabolisms:
     Poison:
+      metabolismRate: 0.2 # Offbrand
       effects:
       - !type:HealthChange
         damage:
           types:
-            Caustic: 1
+      # Begin Offbrand
+            Caustic: 0.5
+        conditions:
+        - !type:OrganType
+          type: Plant
+          shouldHave: false
+      - !type:HealthChange
+        damage:
+          types:
+            Heat: -0.5
+            Cold: -0.5
+            Shock: -0.5
+        conditions:
+        - !type:OrganType
+          type: Plant
+      # End Offbrand

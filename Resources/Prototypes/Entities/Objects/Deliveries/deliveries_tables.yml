@@ -98,6 +98,8 @@
       - id: Bloodpack
       - id: SimpleSuture #start imp
       - id: Tincture
+      - id: Bloodpack
+      - id: ChemistryBottleParacetamol # Offbrand
     - !type:NestedSelector
       tableId: LetterImpRareEntityTable # end imp
 
