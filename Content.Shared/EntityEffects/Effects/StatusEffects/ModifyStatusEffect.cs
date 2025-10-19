@@ -22,14 +22,12 @@ public sealed partial class ModifyStatusEffect : EntityEffect
     /// <summary>
     /// Delay before the effect starts. If another effect is added with a shorter delay, it takes precedence.
     /// </summary>
-    [DataField]
-    public float Delay = 0f;
 
     /// <remarks>
     /// true - refresh status effect time (update to greater value), false - accumulate status effect time.
     /// </remarks>
     [DataField]
-    public bool Refresh = true;
+    public float Delay = 0f;
 
     /// <summary>
     /// Should this effect add the status effect, remove time from it, or set its cooldown?
@@ -49,11 +47,11 @@ public sealed partial class ModifyStatusEffect : EntityEffect
         var duration = TimeSpan.FromSeconds(time);
         switch (Type)
         {
+            case StatusEffectMetabolismType.Update:
+                statusSys.TryUpdateStatusEffectDuration(args.TargetEntity, EffectProto, duration, Delay > 0 ? TimeSpan.FromSeconds(Delay) : null);
+                break;
             case StatusEffectMetabolismType.Add:
-                if (Refresh)
-                    statusSys.TryUpdateStatusEffectDuration(args.TargetEntity, EffectProto, duration, Delay > 0 ? TimeSpan.FromSeconds(Delay) : null);
-                else
-                    statusSys.TryAddStatusEffectDuration(args.TargetEntity, EffectProto, duration, Delay > 0 ? TimeSpan.FromSeconds(Delay) : null);
+                statusSys.TryAddStatusEffectDuration(args.TargetEntity, EffectProto, duration, Delay > 0 ? TimeSpan.FromSeconds(Delay) : null);
                 break;
             case StatusEffectMetabolismType.Remove:
                 statusSys.TryAddTime(args.TargetEntity, EffectProto, -duration);

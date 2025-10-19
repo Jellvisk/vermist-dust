@@ -15,7 +15,7 @@ public sealed class ServerChatOOCColorManager : IServerChatOOCColorManager
     [Dependency] private readonly IServerPreferencesManager _prefsMan = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
 
-    public void Init()
+    public void Initialize()
     {
         _netManager.RegisterNetMessage<MsgUpdateOOCColor>(HandleUpdateOOCColorMessage);
     }
