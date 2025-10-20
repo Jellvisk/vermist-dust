@@ -2,28 +2,26 @@ using Lidgren.Network;
 using Robust.Shared.Network;
 using Robust.Shared.Serialization;
 
-namespace Content.Shared._VDS.Preferences
+namespace Content.Shared._VDS.Preferences;
+
+/// <summary>
+/// Message containing color data that is sent to ServerChatOOCColorManager.cs.
+/// </summary>
+#nullable disable
+public sealed class MsgUpdateOOCColor : NetMessage
 {
-    /// <summary>
-    /// Message containing color data that is sent to ServerChatOOCColorManager.cs.
-    /// </summary>
+    public override MsgGroups MsgGroup => MsgGroups.Command;
 
-    #nullable disable
-    public sealed class MsgUpdateOOCColor : NetMessage
+    public string OOCColor = null!;
+
+    public override void ReadFromBuffer(NetIncomingMessage buffer, IRobustSerializer serializer)
     {
-        public override MsgGroups MsgGroup => MsgGroups.Command;
+        OOCColor = buffer.ReadString();
+    }
 
-        public string OOCColor = null!;
+    public override void WriteToBuffer(NetOutgoingMessage buffer, IRobustSerializer serializer)
+    {
+        buffer.Write(OOCColor);
 
-        public override void ReadFromBuffer(NetIncomingMessage buffer, IRobustSerializer serializer)
-        {
-            OOCColor = buffer.ReadString();
-        }
-
-        public override void WriteToBuffer(NetOutgoingMessage buffer, IRobustSerializer serializer)
-        {
-            buffer.Write(OOCColor);
-
-        }
     }
 }

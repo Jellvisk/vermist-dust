@@ -1,5 +1,4 @@
 using Content.Server._VDS.Chat.Managers;
-using Content.Server._VDS.IoC;
 using Content.Server.Acz;
 using Content.Server.Administration;
 using Content.Server.Administration.Logs;
@@ -64,7 +63,7 @@ namespace Content.Server.Entry
         [Dependency] private readonly INodeGroupFactory _nodeFactory = default!;
         [Dependency] private readonly IPrototypeManager _proto = default!;
         [Dependency] private readonly IResourceManager _res = default!;
-        [Dependency] private readonly IServerChatOOCColorManager _colors = default!; // VDS
+        [Dependency] private readonly IOOCColorManager _colors = default!; // VDS
         [Dependency] private readonly IServerDbManager _dbManager = default!;
         [Dependency] private readonly IServerPreferencesManager _preferences = default!;
         [Dependency] private readonly IStatusHost _host = default!;

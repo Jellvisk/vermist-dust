@@ -54,7 +54,7 @@ public sealed partial class OptionOOCColorSlider : BaseOptionCVar<string>
         try
         {
             // Resolve the manager directly instead of using a field injection
-            var oocColorManager = IoCManager.Resolve<IClientChatOOCColorManager>();
+            var oocColorManager = IoCManager.Resolve<IClientOOCColorManager>();
             oocColorManager.HandleUpdateOOCColorMessage(
                 _slider.Slider.Color);
         }

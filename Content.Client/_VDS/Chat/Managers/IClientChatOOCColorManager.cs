@@ -1,6 +1,6 @@
-﻿namespace Content.Client._VDS.Chat.Managers;
+namespace Content.Client._VDS.Chat.Managers;
 
-public interface IClientChatOOCColorManager
+public interface IClientOOCColorManager
 {
     void Initialize();
     void HandleUpdateOOCColorMessage(Color color);

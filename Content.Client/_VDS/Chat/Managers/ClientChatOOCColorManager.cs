@@ -6,7 +6,7 @@ namespace Content.Client._VDS.Chat.Managers;
 /// <summary>
 /// Client implementation of the chat OOC color manager that sends color updates to the server.
 /// </summary>
-public sealed class ClientChatOOCColorManager : IClientChatOOCColorManager
+public sealed class ClientOOCColorManager : IClientOOCColorManager
 {
     [Dependency] private readonly IClientNetManager _netManager = default!;
     public void Initialize()
