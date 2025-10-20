@@ -60,7 +60,6 @@ public sealed partial class SleepingSystem : EntitySystem
         SubscribeLocalEvent<SleepingComponent, MobStateChangedEvent>(OnMobStateChanged);
         SubscribeLocalEvent<SleepingComponent, ComponentInit>(OnCompInit);
         SubscribeLocalEvent<SleepingComponent, ComponentRemove>(OnComponentRemoved);
-        SubscribeLocalEvent<SleepingComponent, RejuvenateEvent>(OnRejuvenate);
         SubscribeLocalEvent<SleepingComponent, SpeakAttemptEvent>(OnSpeakAttempt);
         SubscribeLocalEvent<SleepingComponent, CanSeeAttemptEvent>(OnSeeAttempt);
         SubscribeLocalEvent<SleepingComponent, PointAttemptEvent>(OnPointAttempt);
@@ -203,11 +202,6 @@ public sealed partial class SleepingSystem : EntitySystem
     {
         // Shh the Urist McHands is sleeping...
         args.Cancelled = true;
-    }
-
-    private void OnRejuvenate(Entity<SleepingComponent> ent, ref RejuvenateEvent args)
-    {
-        TryWaking((ent.Owner, ent.Comp), true);
     }
 
     private void OnExamined(Entity<SleepingComponent> ent, ref ExaminedEvent args)
