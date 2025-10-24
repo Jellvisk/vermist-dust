@@ -11,12 +11,14 @@
       fix1:
         shape:
           !type:PhysShapeAabb
-          bounds: "-0.4,-0.4,0.4,0.4"
+          bounds: "-0.35,-0.35,0.35,0.35" # VDS
         density: 190
         mask:
-        - MachineMask
+        - Impassable
+        - MidImpassable
+        # - MachineMask
         layer:
-          - MachineLayer
+        - MachineLayer
   - type: Lathe
   - type: MaterialStorage
   - type: Destructible

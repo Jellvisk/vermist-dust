@@ -145,7 +145,7 @@
       Brute:
         collection: GlassSmack
   - type: Sprite
-    drawdepth: Mobs
+    drawdepth: OverMobs # VDS
     sprite: Structures/Windows/directional.rsi
     state: window
   - type: Icon
@@ -163,7 +163,7 @@
       fix1:
         shape:
           !type:PhysShapeAabb
-          bounds: "-0.5,-0.5,0.5,-0.28125"
+          bounds: "-0.5,-0.5,0.5,-0.45" # VDS
         density: 1500
         mask:
         - FullTileMask

@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   id: UnfinishedMachineFrame
   name: machine frame
   description: A machine under construction. Needs more parts.
@@ -15,7 +15,7 @@
         fix1:
           shape:
             !type:PhysShapeAabb
-            bounds: "-0.25,-0.5,0.25,0.5"
+            bounds: "-0.25,-0.35,0.25,0.35" # VDS
           density: 190
           mask:
           - MachineMask
@@ -82,7 +82,7 @@
         fix1:
           shape:
             !type:PhysShapeAabb
-            bounds: "-0.25,-0.5,0.25,0.5"
+            bounds: "-0.25,-0.35,0.25,0.35" # VDS
           density: 190
           mask:
           - MachineMask
