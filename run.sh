@@ -24,7 +24,7 @@ start_client() {
     nice -n "$niceness" dotnet run --project Content.Client
 
     # Grace period.
-    sleep 15
+    sleep "$niceness"
 
 }
 # for my weak ass cpu. launching both at the same time kicks my PC's ass.
@@ -48,7 +48,7 @@ cpu_delay() {
             else
                 stable_count=0
             fi
-            sleep 3
+            sleep 8
         else
             echo "Error: $name process died unexpectedly"
             exit 1
@@ -70,6 +70,7 @@ start_server() {
         nice -n "$niceness" dotnet run --project Content.Server
     fi
 }
+
 cleanup() {
     local pid
 
@@ -115,11 +116,11 @@ run() {
         start_client "$NICENESS" &
         CLIENT_PID=$(get_process_pid "dotnet run.*Content.Client")
     else
-        start_client "$NICENESS" &
-        CLIENT_PID=$(get_process_pid "dotnet run.*Content.Client")
-        cpu_delay "$CLIENT_PID" "$NUM_CORES" "Client"
         start_server "$NICENESS" "$USE_TOOLS" &
         SERVER_PID=$(get_process_pid "dotnet run.*Content.Server")
+        cpu_delay "$SERVER_PID" "$NUM_CORES" "Server"
+        start_client "$NICENESS" &
+        CLIENT_PID=$(get_process_pid "dotnet run.*Content.Client")
     fi
 
     trap 'cleanup $CLIENT_PID $SERVER_PID' EXIT
