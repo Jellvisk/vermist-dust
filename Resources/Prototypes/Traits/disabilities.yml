@@ -50,19 +50,19 @@
   cost: -8
   # imp addition ends
 
-- type: trait
-  id: Unrevivable
-  name: trait-unrevivable-name
-  description: trait-unrevivable-desc
-  category: Traits # imp
-  components:
-    - type: Unrevivable
-      cloneable: true
-  # imp addition starts
-  subcategories:
-    - Unrevivability
-  cost: -3
-  # imp addition ends
+# - type: trait
+#   id: Unrevivable
+#   name: trait-unrevivable-name
+#   description: trait-unrevivable-desc
+#   category: Traits # imp
+#   components:
+#     - type: Unrevivable
+#       cloneable: true
+#   # imp addition starts
+#   subcategories:
+#     - Unrevivability
+#   cost: -3
+#   # imp addition ends
 
 - type: trait
   id: Monochromacy

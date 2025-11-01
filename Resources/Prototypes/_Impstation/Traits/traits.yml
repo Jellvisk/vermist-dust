@@ -1,13 +1,13 @@
-- type: trait
-  id: RandomUnrevivable
-  name: trait-random-unrevivable-name
-  description: trait-random-unrevivable-desc
-  category: Traits
-  components:
-    - type: RandomUnrevivable
-  subcategories:
-    - Unrevivability
-  cost: -2
+# - type: trait
+#   id: RandomUnrevivable
+#   name: trait-random-unrevivable-name
+#   description: trait-random-unrevivable-desc
+#   category: Traits
+#   components:
+#     - type: RandomUnrevivable
+#   subcategories:
+#     - Unrevivability
+#   cost: -2
 
 - type: trait
   id: SGDrequired

@@ -2,9 +2,9 @@
   id: Visual
   name: trait-subcategory-visual
 
-- type: traitSubcategory
-  id: Unrevivability
-  name: trait-subcategory-unrevivability
+# - type: traitSubcategory
+#   id: Unrevivability
+#   name: trait-subcategory-unrevivability
 
 - type: traitSubcategory
   id: Speech
